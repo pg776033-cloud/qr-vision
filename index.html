@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QR-VISION | Smart Vehicle Identity</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+    color: white;
+    line-height: 1.6;
+}
+
+header {
+    padding: 60px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #111936, #182657);
+}
+
+header h1 {
+    font-size: 48px;
+    letter-spacing: 3px;
+}
+
+header p {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #b9c7ff;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.section {
+    background: #141b33;
+    padding: 30px;
+    margin-bottom: 25px;
+    border-radius: 18px;
+    border: 1px solid #2c3760;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: #1c2544;
+    padding: 18px;
+    border-radius: 12px;
+}
+
+.card strong {
+    display: block;
+    color: #9fb0ff;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.emergency {
+    border-left: 5px solid #ff5c5c;
+}
+
+.future {
+    display: grid;
+    gap: 12px;
+}
+
+.future div {
+    background: #1c2544;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #9da7c5;
+    font-size: 14px;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: #263463;
+    color: #c9d3ff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚗 QR-VISION</h1>
+    <p>Smart Digital Vehicle Identity System</p>
+    <span class="badge">SCAN • IDENTIFY • CONNECT</span>
+</header>
+
+<div class="container">
+
+    <!-- VEHICLE INFORMATION -->
+    <section class="section">
+        <h2>🚘 Vehicle Information</h2>
+
+        <div class="info-grid">
+
+            <div class="card">
+                <strong>Vehicle ID</strong>
+                SV-001
+            </div>
+
+            <div class="card">
+                <strong>Registration Number</strong>
+                KA-00-XX-0000
+            </div>
+
+            <div class="card">
+                <strong>Vehicle Type</strong>
+                Four-Wheeler
+            </div>
+
+            <div class="card">
+                <strong>Fuel Type</strong>
+                Petrol
+            </div>
+
+            <div class="card">
+                <strong>Vehicle Status</strong>
+                Active
+            </div>
+
+            <div class="card">
+                <strong>System Status</strong>
+                Online
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- EMERGENCY -->
+    <section class="section emergency">
+        <h2>🚨 Emergency Information</h2>
+
+        <div class="info-grid">
+
+            <div class="card">
+                <strong>Emergency Contact</strong>
+                Demo Contact
+            </div>
+
+            <div class="card">
+                <strong>Contact Number</strong>
+                00000 00000
+            </div>
+
+            <div class="card">
+                <strong>Emergency Status</strong>
+                Available
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- SERVICE -->
+    <section class="section">
+        <h2>🔧 Vehicle Service Information</h2>
+
+        <div class="info-grid">
+
+            <div class="card">
+                <strong>Last Service</strong>
+                15 August 2026
+            </div>
+
+            <div class="card">
+                <strong>Insurance</strong>
+                Valid — Demo
+            </div>
+
+            <div class="card">
+                <strong>Maintenance Status</strong>
+                Normal
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="section">
+        <h2>⚙️ How QR-VISION Works</h2>
+
+        <div class="future">
+
+            <div>
+                <strong>1️⃣ Scan</strong><br>
+                Scan the QR code attached to the vehicle number plate.
+            </div>
+
+            <div>
+                <strong>2️⃣ Identify</strong><br>
+                The QR code connects to the vehicle's digital profile.
+            </div>
+
+            <div>
+                <strong>3️⃣ Access Information</strong><br>
+                Important vehicle and emergency information can be viewed.
+            </div>
+
+            <div>
+                <strong>4️⃣ Connect</strong><br>
+                The system can provide a digital way to connect relevant people during emergencies.
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FUTURE -->
+    <section class="section">
+        <h2>🔮 Future Development</h2>
+
+        <div class="future">
+
+            <div>📱 QR Code + NFC Integration</div>
+
+            <div>📍 GPS Location Tracking</div>
+
+            <div>📡 IoT Vehicle Sensors</div>
+
+            <div>🤖 AI-Based Accident Detection</div>
+
+            <div>🚨 Automatic Emergency Alerts</div>
+
+            <div>🏙️ Smart City Integration</div>
+
+        </div>
+    </section>
+
+
+    <!-- PROJECT -->
+    <section class="section">
+        <h2>💡 About the Project</h2>
+
+        <p>
+            QR-VISION is a prototype concept that connects a physical
+            vehicle number plate with a digital information system.
+            By scanning the QR code, users can access a digital vehicle
+            profile instead of relying only on the physical number plate.
+        </p>
+
+        <br>
+
+        <p>
+            The prototype demonstrates how QR technology can be combined
+            with future technologies such as GPS, IoT and Artificial
+            Intelligence to create smarter and safer transportation systems.
+        </p>
+    </section>
+
+</div>
+
+<footer>
+    QR-VISION — Science Project Prototype<br>
+    Smart Digital Vehicle Identity System
+</footer>
+
+</body>
+</html>
