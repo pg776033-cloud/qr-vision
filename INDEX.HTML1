@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PETSAFE | Smart Pet Safety Identity</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050b09;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        linear-gradient(rgba(80,255,180,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(80,255,180,.035) 1px,transparent 1px);
+    background-size:45px 45px;
+    pointer-events:none;
+    z-index:-2;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    background:rgba(80,255,180,.06);
+    filter:blur(110px);
+    top:-300px;
+    left:50%;
+    transform:translateX(-50%);
+    pointer-events:none;
+    z-index:-3;
+}
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 7%;
+    background:rgba(5,11,9,.84);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(80,255,180,.15);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:2px;
+    color:#62ffb0;
+}
+
+nav a{
+    color:#9baaa2;
+    text-decoration:none;
+    margin-left:25px;
+    font-size:13px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#62ffb0;
+}
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:80px 7%;
+}
+
+.hero-content{
+    max-width:950px;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 18px;
+    border:1px solid #62ffb0;
+    border-radius:30px;
+    color:#62ffb0;
+    font-size:12px;
+    letter-spacing:2px;
+    margin-bottom:25px;
+}
+
+h1{
+    font-size:clamp(55px,10vw,110px);
+    letter-spacing:7px;
+    line-height:.95;
+    background:linear-gradient(90deg,#fff,#62ffb0,#fff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero h2{
+    margin-top:20px;
+    font-size:clamp(20px,3vw,32px);
+    font-weight:400;
+}
+
+.hero p{
+    max-width:700px;
+    margin:25px auto;
+    color:#8b9b93;
+    line-height:1.8;
+}
+
+.btn{
+    display:inline-block;
+    padding:14px 28px;
+    border:1px solid #62ffb0;
+    color:#62ffb0;
+    text-decoration:none;
+    border-radius:8px;
+    margin:8px;
+    transition:.3s;
+    background:transparent;
+}
+
+.btn:hover{
+    background:#62ffb0;
+    color:#06100b;
+    box-shadow:0 0 30px rgba(98,255,176,.25);
+}
+
+section{
+    padding:90px 7%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:38px;
+}
+
+.section-title p{
+    color:#829189;
+    margin-top:10px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(98,255,176,.14);
+    border-radius:18px;
+    padding:28px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#62ffb0;
+    box-shadow:0 15px 45px rgba(98,255,176,.07);
+}
+
+.icon{
+    font-size:32px;
+    margin-bottom:18px;
+}
+
+.card h3{
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#8b9b93;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.pet{
+    max-width:900px;
+    margin:auto;
+    padding:35px;
+    background:rgba(98,255,176,.025);
+    border:1px solid rgba(98,255,176,.2);
+    border-radius:22px;
+}
+
+.pet-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:20px;
+    margin-bottom:25px;
+}
+
+.status{
+    color:#62ffb0;
+    border:1px solid #62ffb0;
+    border-radius:20px;
+    padding:6px 12px;
+    font-size:12px;
+}
+
+.data{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
+
+.data-box{
+    background:#08120d;
+    padding:18px;
+    border-radius:12px;
+}
+
+.data-box span{
+    display:block;
+    color:#68766f;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:7px;
+}
+
+.data-box strong{
+    font-size:16px;
+}
+
+.flow{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.step{
+    min-width:150px;
+    text-align:center;
+    padding:22px;
+    border:1px solid rgba(98,255,176,.18);
+    border-radius:15px;
+}
+
+.step h3{
+    color:#62ffb0;
+    margin-bottom:8px;
+}
+
+.arrow{
+    color:#62ffb0;
+    font-size:25px;
+}
+
+.timeline{
+    max-width:900px;
+    margin:auto;
+}
+
+.timeline-item{
+    border-left:2px solid #62ffb0;
+    padding:0 0 35px 30px;
+    margin-left:10px;
+}
+
+.timeline-item h3{
+    color:#62ffb0;
+    margin-bottom:8px;
+}
+
+.timeline-item p{
+    color:#8b9b93;
+    line-height:1.7;
+}
+
+.future{
+    border-color:rgba(160,120,255,.3);
+}
+
+.future h3{
+    color:#c5a8ff;
+}
+
+.pet-profile{
+    text-align:center;
+    margin:30px auto;
+}
+
+.pet-avatar{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    border:4px solid #62ffb0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:60px;
+    box-shadow:0 0 30px rgba(98,255,176,.12);
+}
+
+.architecture{
+    max-width:950px;
+    margin:auto;
+    text-align:center;
+}
+
+.architecture-box{
+    padding:25px;
+    margin:15px;
+    border:1px dashed #62ffb0;
+    border-radius:14px;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#65736c;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+footer strong{
+    color:#62ffb0;
+}
+
+@media(max-width:700px){
+
+    nav div:last-child{
+        display:none;
+    }
+
+    .hero{
+        min-height:80vh;
+    }
+
+    section{
+        padding:65px 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">PETSAFE</div>
+
+    <div>
+        <a href="#identity">Identity</a>
+        <a href="#flow">How It Works</a>
+        <a href="#future">Future</a>
+        <a href="#about">About</a>
+    </div>
+
+</nav>
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            SCIENCE PROJECT • PET SAFETY
+        </div>
+
+        <h1>PETSAFE</h1>
+
+        <h2>Smart Digital Pet Safety Identity</h2>
+
+        <p>
+            What if a simple pet collar could connect
+            a lost pet to a digital identity and help information?
+        </p>
+
+        <a href="#identity" class="btn">
+            EXPLORE SYSTEM
+        </a>
+
+        <a href="#future" class="btn">
+            VIEW FUTURE
+        </a>
+
+    </div>
+
+</header>
+
+<section id="identity">
+
+    <div class="section-title">
+
+        <h2>Pet Identity Core</h2>
+
+        <p>
+            Prototype digital profile connected through a QR tag
+        </p>
+
+    </div>
+
+    <div class="pet">
+
+        <div class="pet-top">
+
+            <div>
+                <h2>PET IDENTITY PROFILE</h2>
+                <p style="color:#68776f;margin-top:5px;">
+                    PETSAFE PROTOTYPE
+                </p>
+            </div>
+
+            <div class="status">
+                ● PROFILE ACTIVE
+            </div>
+
+        </div>
+
+        <div class="pet-profile">
+
+            <div class="pet-avatar">
+                🐶
+            </div>
+
+            <h2 style="margin-top:20px;">
+                MOCHI
+            </h2>
+
+            <p style="color:#68776f;margin-top:5px;">
+                Fictional demonstration profile
+            </p>
+
+        </div>
+
+        <div class="data">
+
+            <div class="data-box">
+                <span>Pet ID</span>
+                <strong>PS-001</strong>
+            </div>
+
+            <div class="data-box">
+                <span>Pet Type</span>
+                <strong>Dog</strong>
+            </div>
+
+            <div class="data-box">
+                <span>Profile Status</span>
+                <strong>Active</strong>
+            </div>
+
+            <div class="data-box">
+                <span>Owner Contact</span>
+                <strong>00000 00000</strong>
+            </div>
+
+            <div class="data-box">
+                <span>Emergency Contact</span>
+                <strong>00000 00000</strong>
+            </div>
+
+            <div class="data-box">
+                <span>Safety Mode</span>
+                <strong>Demo</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="flow">
+
+    <div class="section-title">
+
+        <h2>How PETSAFE Works</h2>
+
+        <p>
+            A simple QR connection between pet and digital profile
+        </p>
+
+    </div>
+
+    <div class="flow">
+
+        <div class="step">
+
+            <h3>01</h3>
+
+            <strong>SCAN</strong>
+
+            <p style="color:#819087;margin-top:8px;">
+                Scan the QR tag attached to the collar.
+            </p>
+
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+
+            <h3>02</h3>
+
+            <strong>IDENTIFY</strong>
+
+            <p style="color:#819087;margin-top:8px;">
+                Open the pet's digital identity.
+            </p>
+
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+
+            <h3>03</h3>
+
+            <strong>CONNECT</strong>
+
+            <p style="color:#819087;margin-top:8px;">
+                View selected contact and help information.
+            </p>
+
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+
+            <h3>04</h3>
+
+            <strong>HELP</strong>
+
+            <p style="color:#819087;margin-top:8px;">
+                Support reconnecting the pet with its owner.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <div class="section-title">
+
+        <h2>System Architecture</h2>
+
+        <p>
+            The physical collar becomes a gateway to a digital identity.
+        </p>
+
+    </div>
+
+    <div class="architecture">
+
+        <div class="architecture-box">
+
+            🐕
+            <strong>PHYSICAL PET</strong>
+
+            <p>
+                Collar + QR Tag
+            </p>
+
+        </div>
+
+        <div style="font-size:30px;color:#62ffb0;">
+            ↓
+        </div>
+
+        <div class="architecture-box">
+
+            🔳
+            <strong>QR LAYER</strong>
+
+            <p>
+                QR code connects to the pet profile.
+            </p>
+
+        </div>
+
+        <div style="font-size:30px;color:#62ffb0;">
+            ↓
+        </div>
+
+        <div class="architecture-box">
+
+            🌐
+            <strong>DIGITAL PROFILE</strong>
+
+            <p>
+                Pet identity and selected contact information.
+            </p>
+
+        </div>
+
+        <div style="font-size:30px;color:#62ffb0;">
+            ↓
+        </div>
+
+        <div class="architecture-box">
+
+            🤖
+            <strong>FUTURE SAFETY SYSTEM</strong>
+
+            <p>
+                GPS + Geofencing + Sensors + AI + Smart Alerts
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <div class="section-title">
+
+        <h2>Past → Present → Future</h2>
+
+    </div>
+
+    <div class="timeline">
+
+        <div class="timeline-item">
+
+            <h3>PAST — Simple Collar Identification</h3>
+
+            <p>
+                Traditional collars could contain a pet's name
+                or a phone number, but information was limited.
+            </p>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <h3>PRESENT — QR Digital Identity</h3>
+
+            <p>
+                PETSAFE adds a QR tag that connects the physical
+                collar to a digital pet profile.
+            </p>
+
+        </div>
+
+        <div class="timeline-item future">
+
+            <h3>FUTURE — Connected Pet Safety</h3>
+
+            <p>
+                The concept could evolve through GPS,
+                geofencing, activity monitoring, environmental
+                sensors, AI-assisted analysis and smart alerts.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="future">
+
+    <div class="section-title">
+
+        <h2>Future Development</h2>
+
+        <p>
+            Possible technologies for a future PETSAFE system
+        </p>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card future">
+
+            <div class="icon">📍</div>
+
+            <h3>GPS Location</h3>
+
+            <p>
+                Future versions could integrate location services
+                to help locate a pet.
+            </p>
+
+        </div>
+
+        <div class="card future">
+
+            <div class="icon">🗺️</div>
+
+            <h3>Geofencing</h3>
+
+            <p>
+                A future system could define a safe area and
+                detect when a pet moves outside it.
+            </p>
+
+        </div>
+
+        <div class="card future">
+
+            <div class="icon">📊</div>
+
+            <h3>Activity Monitoring</h3>
+
+            <p>
+                Sensors could potentially monitor selected
+                movement and activity patterns.
+            </p>
+
+        </div>
+
+        <div class="card future">
+
+            <div class="icon">🌡️</div>
+
+            <h3>Environment Sensors</h3>
+
+            <p>
+                Future sensors could monitor environmental
+                conditions around the pet.
+            </p>
+
+        </div>
+
+        <div class="card future">
+
+            <div class="icon">🧠</div>
+
+            <h3>AI Analysis</h3>
+
+            <p>
+                AI could potentially analyze activity patterns
+                and identify unusual changes.
+            </p>
+
+        </div>
+
+        <div class="card future">
+
+            <div class="icon">🔔</div>
+
+            <h3>Smart Alerts</h3>
+
+            <p>
+                Authorized contacts could receive notifications
+                when predefined conditions are detected.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <div class="section-title">
+
+        <h2>Why PETSAFE?</h2>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="icon">🔳</div>
+
+            <h3>Simple QR Access</h3>
+
+            <p>
+                A QR tag provides a quick bridge between
+                a physical pet and digital information.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">🌐</div>
+
+            <h3>Digital Profile</h3>
+
+            <p>
+                Information can be organized in one digital
+                profile instead of being limited to a small tag.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">❤️</div>
+
+            <h3>Lost-Pet Support</h3>
+
+            <p>
+                The concept is designed to make it easier
+                for someone who finds a pet to access help information.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">🔐</div>
+
+            <h3>Privacy-Aware</h3>
+
+            <p>
+                A real implementation should control what
+                information is publicly visible and protect sensitive data.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="about">
+
+    <div class="section-title">
+
+        <h2>About The Prototype</h2>
+
+    </div>
+
+    <div class="card"
+         style="max-width:900px;margin:auto;text-align:center;">
+
+        <p>
+            PETSAFE is a science-project prototype demonstrating
+            how QR technology can connect a physical pet collar
+            with a digital identity.
+        </p>
+
+        <br>
+
+        <p>
+            The current prototype demonstrates the QR-to-web
+            digital identity concept.
+        </p>
+
+        <br>
+
+        <p>
+            GPS, geofencing, sensors, AI analysis and smart alerts
+            are <strong style="color:#62ffb0;">
+            future concepts
+            </strong>
+            and are not active functions of this prototype.
+        </p>
+
+        <br>
+
+        <p style="color:#62ffb0;">
+            All information shown on this website is fictional.
+        </p>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <strong>PETSAFE</strong>
+
+    <br><br>
+
+    Smart Digital Pet Safety Identity
+
+    <br><br>
+
+    Science Project Prototype • Educational Demonstration
+
+</footer>
+
+</body>
+</html>
