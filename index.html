@@ -3,834 +3,793 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR-VISION | Smart Vehicle Identity</title>
+
+<title>QR-VISION</title>
 
 <style>
+
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-html{
-    scroll-behavior:smooth;
 }
 
 body{
-    background:#05070d;
-    color:#fff;
-    overflow-x:hidden;
+    font-family:Arial, sans-serif;
+    background:#eef2f7;
+    color:#172033;
 }
 
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:
-        linear-gradient(rgba(0,255,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,255,.035) 1px,transparent 1px);
-    background-size:45px 45px;
-    pointer-events:none;
-    z-index:-2;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:700px;
-    height:700px;
-    border-radius:50%;
-    background:rgba(0,220,255,.07);
-    filter:blur(100px);
-    top:-300px;
-    left:50%;
-    transform:translateX(-50%);
-    pointer-events:none;
-    z-index:-3;
-}
-
-nav{
-    position:sticky;
-    top:0;
-    z-index:100;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 7%;
-    background:rgba(5,7,13,.82);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(0,255,255,.15);
-}
-
-.logo{
-    font-size:22px;
-    font-weight:800;
-    letter-spacing:2px;
-    color:#00f6ff;
-}
-
-nav a{
-    color:#aaa;
-    text-decoration:none;
-    margin-left:25px;
-    font-size:13px;
-    transition:.3s;
-}
-
-nav a:hover{
-    color:#00f6ff;
-}
-
-.hero{
-    min-height:90vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+header{
+    background:#172033;
+    color:white;
     text-align:center;
-    padding:80px 7%;
+    padding:30px 15px;
 }
 
-.hero-content{
-    max-width:1000px;
-}
-
-.badge{
-    display:inline-block;
-    border:1px solid #00f6ff;
-    color:#00f6ff;
-    padding:8px 18px;
-    border-radius:30px;
-    font-size:12px;
-    letter-spacing:2px;
-    margin-bottom:25px;
-}
-
-h1{
-    font-size:clamp(55px,10vw,110px);
-    letter-spacing:7px;
-    line-height:.95;
-    background:linear-gradient(90deg,#fff,#00f6ff,#fff);
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-.hero h2{
-    margin-top:20px;
-    font-size:clamp(20px,3vw,32px);
-    font-weight:400;
-}
-
-.hero p{
-    color:#8e98a8;
-    max-width:700px;
-    margin:25px auto;
-    line-height:1.8;
-}
-
-.btn{
-    display:inline-block;
-    padding:14px 28px;
-    border:1px solid #00f6ff;
-    color:#00f6ff;
-    text-decoration:none;
-    border-radius:8px;
-    margin:8px;
-    transition:.3s;
-}
-
-.btn:hover{
-    background:#00f6ff;
-    color:#05070d;
-    box-shadow:0 0 30px rgba(0,246,255,.35);
-}
-
-section{
-    padding:90px 7%;
-}
-
-.section-title{
-    text-align:center;
-    margin-bottom:50px;
-}
-
-.section-title h2{
+header h1{
     font-size:38px;
+    letter-spacing:2px;
 }
 
-.section-title p{
-    color:#7f8a9a;
-    margin-top:10px;
+header p{
+    margin-top:8px;
+    color:#cbd5e1;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:20px;
 }
 
 .card{
-    background:rgba(255,255,255,.025);
-    border:1px solid rgba(0,246,255,.14);
+    background:white;
+    padding:25px;
     border-radius:18px;
-    padding:28px;
-    transition:.3s;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom:20px;
 }
 
-.card:hover{
-    transform:translateY(-6px);
-    border-color:#00f6ff;
-    box-shadow:0 15px 45px rgba(0,246,255,.08);
+.card h2{
+    margin-bottom:15px;
 }
 
-.card .icon{
-    font-size:32px;
-    margin-bottom:18px;
+.vehicle-icon{
+    font-size:80px;
+    text-align:center;
 }
 
-.card h3{
-    margin-bottom:12px;
+.plate{
+    background:white;
+    border:4px solid #111;
+    border-radius:6px;
+    display:inline-block;
+    padding:10px 25px;
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin:15px 0;
 }
 
-.card p{
-    color:#8e98a8;
-    line-height:1.7;
-    font-size:14px;
-}
-
-.vehicle{
-    max-width:900px;
-    margin:auto;
-    padding:35px;
-    border:1px solid rgba(0,246,255,.2);
-    border-radius:22px;
-    background:rgba(0,246,255,.025);
-}
-
-.vehicle-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid rgba(255,255,255,.1);
-    padding-bottom:20px;
-    margin-bottom:25px;
+.center{
+    text-align:center;
 }
 
 .status{
-    color:#65ff9b;
-    font-size:12px;
-    border:1px solid #65ff9b;
-    padding:6px 12px;
+    display:inline-block;
+    padding:8px 15px;
     border-radius:20px;
+    font-weight:bold;
+    margin:8px;
 }
 
-.data{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
+.active{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.data-box{
-    background:#080d15;
-    padding:18px;
-    border-radius:12px;
+.danger-status{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
-.data-box span{
-    display:block;
-    color:#687384;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    margin-bottom:7px;
+.info{
+    margin-top:15px;
 }
 
-.data-box strong{
-    font-size:16px;
+.info p{
+    padding:9px 0;
+    border-bottom:1px solid #e5e7eb;
 }
 
-.score{
-    text-align:center;
-    margin-top:30px;
-}
-
-.circle{
-    width:130px;
-    height:130px;
+.qr{
+    width:170px;
+    height:170px;
     margin:20px auto;
-    border:5px solid #00f6ff;
-    border-radius:50%;
+    border:8px solid #111;
     display:flex;
-    flex-direction:column;
-    justify-content:center;
-    box-shadow:0 0 30px rgba(0,246,255,.15);
-}
-
-.circle strong{
-    font-size:35px;
-}
-
-.circle small{
-    color:#788394;
-}
-
-.flow{
-    display:flex;
-    justify-content:center;
     align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
+    justify-content:center;
+    font-size:100px;
+    background:white;
 }
 
-.step{
-    min-width:150px;
-    text-align:center;
-    padding:22px;
-    border:1px solid rgba(0,246,255,.18);
+button{
+    border:none;
+    border-radius:10px;
+    padding:13px 18px;
+    margin:5px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.blue{
+    background:#2563eb;
+    color:white;
+}
+
+.red{
+    background:#dc2626;
+    color:white;
+}
+
+.green{
+    background:#16a34a;
+    color:white;
+}
+
+.black{
+    background:#172033;
+    color:white;
+}
+
+button:hover{
+    opacity:0.85;
+}
+
+.message{
+    padding:13px;
+    margin-top:15px;
+    border-radius:10px;
+    background:#dcfce7;
+    color:#166534;
+    font-weight:bold;
+}
+
+.warning{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.map{
+    height:320px;
+    background:#dfe7ef;
     border-radius:15px;
+    position:relative;
+    overflow:hidden;
+    border:2px solid #cbd5e1;
 }
 
-.arrow{
-    color:#00f6ff;
-    font-size:25px;
+.road1{
+    position:absolute;
+    width:100%;
+    height:55px;
+    top:130px;
+    background:#c4ccd5;
 }
 
-.timeline{
-    max-width:900px;
-    margin:auto;
+.road2{
+    position:absolute;
+    width:55px;
+    height:100%;
+    left:170px;
+    background:#c4ccd5;
 }
 
-.timeline-item{
-    border-left:2px solid #00f6ff;
-    padding:0 0 35px 30px;
-    margin-left:10px;
+.zone{
+    position:absolute;
+    width:210px;
+    height:170px;
+    left:55px;
+    top:75px;
+    border:4px dashed #16a34a;
+    border-radius:50%;
+    background:rgba(34,197,94,0.12);
 }
 
-.timeline-item h3{
-    color:#00f6ff;
-    margin-bottom:8px;
+.car-marker{
+    position:absolute;
+    left:130px;
+    top:130px;
+    font-size:38px;
+    transition:0.7s;
 }
 
-.timeline-item p{
-    color:#8e98a8;
-    line-height:1.7;
+.location{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+.status-row{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #e5e7eb;
 }
 
 .future{
-    border-color:rgba(170,90,255,.3);
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-top:15px;
 }
 
-.future h3{
-    color:#c18aff;
-}
-
-.architecture{
-    max-width:950px;
-    margin:auto;
+.future-box{
+    padding:18px;
+    background:#f1f5f9;
+    border-radius:12px;
     text-align:center;
-}
-
-.architecture-box{
-    padding:25px;
-    margin:15px;
-    border:1px dashed #00f6ff;
-    border-radius:14px;
 }
 
 footer{
     text-align:center;
-    padding:40px 20px;
-    color:#667080;
-    border-top:1px solid rgba(255,255,255,.08);
+    padding:25px;
+    color:#64748b;
 }
 
-footer strong{
-    color:#00f6ff;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    z-index:200;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal-content{
-    max-width:650px;
-    background:#090e17;
-    border:1px solid #00f6ff;
-    border-radius:20px;
-    padding:35px;
-}
-
-.close{
-    float:right;
-    font-size:25px;
-    cursor:pointer;
-    color:#00f6ff;
-}
-
-@media(max-width:700px){
-    nav div:last-child{
-        display:none;
-    }
-
-    .hero{
-        min-height:80vh;
-    }
-
-    section{
-        padding:65px 5%;
-    }
-}
 </style>
 </head>
 
+
 <body>
 
-<nav>
-    <div class="logo">QR-VISION</div>
-    <div>
-        <a href="#identity">Identity</a>
-        <a href="#flow">How It Works</a>
-        <a href="#future">Future</a>
-        <a href="#about">About</a>
-    </div>
-</nav>
 
-<header class="hero">
-    <div class="hero-content">
+<!-- HEADER -->
 
-        <div class="badge">SCIENCE PROJECT • DIGITAL IDENTITY</div>
+<header>
 
-        <h1>QR-VISION</h1>
+<h1>🚗 QR-VISION</h1>
 
-        <h2>Smart Digital Vehicle Identity System</h2>
+<p>
+Smart Digital Identity System for Vehicles
+</p>
 
-        <p>
-            What if an ordinary vehicle number plate could have
-            a secure digital identity behind it?
-        </p>
-
-        <a href="#identity" class="btn">EXPLORE SYSTEM</a>
-        <a href="#future" class="btn">VIEW FUTURE</a>
-
-    </div>
 </header>
 
-<section id="identity">
 
-    <div class="section-title">
-        <h2>Vehicle Identity Core</h2>
-        <p>Prototype digital information layer</p>
-    </div>
 
-    <div class="vehicle">
+<div class="container">
 
-        <div class="vehicle-top">
-            <div>
-                <h2>SMART VEHICLE ID</h2>
-                <p style="color:#697486;margin-top:5px;">QR-VISION PROTOTYPE</p>
-            </div>
 
-            <div class="status">● SYSTEM ONLINE</div>
-        </div>
+<!-- VEHICLE + QR -->
 
-        <div class="data">
+<div class="grid">
 
-            <div class="data-box">
-                <span>Vehicle ID</span>
-                <strong>QV-001</strong>
-            </div>
 
-            <div class="data-box">
-                <span>Registration</span>
-                <strong>KA-50-AP-6767</strong>
-            </div>
+<!-- VEHICLE PROFILE -->
 
-            <div class="data-box">
-                <span>Vehicle Type</span>
-                <strong>Four-Wheeler</strong>
-            </div>
+<div class="card center">
 
-            <div class="data-box">
-                <span>Fuel Type</span>
-                <strong>PETROL</strong>
-            </div>
+<div class="vehicle-icon">
+🚗
+</div>
 
-            <div class="data-box">
-                <span>Vehicle Status</span>
-                <strong>Active</strong>
-            </div>
+<h2>Vehicle Profile</h2>
 
-            <div class="data-box">
-                <span>Emergency Contact</span>
-                <strong>67143 67677</strong>
-            </div>
+<div class="plate">
+KA 50 VP 6767
+</div>
 
-        </div>
+<br>
 
-        <div class="score">
-            <p style="color:#8290a3;">ILLUSTRATIVE PROTOTYPE SAFETY INDEX</p>
+<span id="mainStatus" class="status active">
+● ACTIVE
+</span>
 
-            <div class="circle">
-                <strong>91</strong>
-                <small>/100</small>
-            </div>
+<div class="info">
 
-            <p style="color:#6e7a8c;">
-                Demonstration value only — not a real safety rating.
-            </p>
-        </div>
+<p>
+<b>Vehicle ID:</b>
+QRV-2026-001
+</p>
 
-    </div>
+<p>
+<b>Vehicle Type:</b>
+Car
+</p>
 
-</section>
+<p>
+<b>Model:</b>
+BMW M5
+</p>
 
-<section id="flow">
+<p>
+<b>Fuel:</b>
+Petrol 
+</p>
 
-    <div class="section-title">
-        <h2>How QR-VISION Works</h2>
-        <p>From physical object to digital information</p>
-    </div>
-
-    <div class="flow">
-
-        <div class="step">
-            <h3>01</h3>
-            <p>SCAN</p>
-            <small>Scan the QR code on the vehicle plate.</small>
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="step">
-            <h3>02</h3>
-            <p>IDENTIFY</p>
-            <small>The QR connects to the vehicle profile.</small>
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="step">
-            <h3>03</h3>
-            <p>ACCESS</p>
-            <small>View structured digital information.</small>
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="step">
-            <h3>04</h3>
-            <p>CONNECT</p>
-            <small>Future systems could connect people, vehicles and services.</small>
-        </div>
-
-    </div>
-
-</section>
-
-<section>
-
-    <div class="section-title">
-        <h2>System Architecture</h2>
-        <p>The QR code acts as the bridge between the physical and digital worlds.</p>
-    </div>
-
-    <div class="architecture">
-
-        <div class="architecture-box">
-            🚗 <strong>PHYSICAL VEHICLE</strong>
-            <p>Number Plate + QR Code</p>
-        </div>
-
-        <div style="font-size:30px;color:#00f6ff;">↓</div>
-
-        <div class="architecture-box">
-            🔳 <strong>QR LAYER</strong>
-            <p>Stores a URL that identifies the digital profile.</p>
-        </div>
-
-        <div style="font-size:30px;color:#00f6ff;">↓</div>
-
-        <div class="architecture-box">
-            🌐 <strong>DIGITAL PROFILE</strong>
-            <p>Vehicle identity and selected information.</p>
-        </div>
-
-        <div style="font-size:30px;color:#00f6ff;">↓</div>
-
-        <div class="architecture-box">
-            🤖 <strong>FUTURE INTELLIGENCE</strong>
-            <p>IoT + GPS + AI + NFC + Smart Alerts</p>
-        </div>
-
-    </div>
-
-</section>
-
-<section>
-
-    <div class="section-title">
-        <h2>Past → Present → Future</h2>
-    </div>
-
-    <div class="timeline">
-
-        <div class="timeline-item">
-            <h3>PAST — Physical Identification</h3>
-            <p>
-                Vehicle identification depended mainly on the
-                physical number plate and manual access to records.
-            </p>
-        </div>
-
-        <div class="timeline-item">
-            <h3>PRESENT — QR Digital Identity</h3>
-            <p>
-                Our prototype adds a QR code to the physical plate.
-                Scanning it opens a digital vehicle profile.
-            </p>
-        </div>
-
-        <div class="timeline-item future">
-            <h3>FUTURE — Connected Vehicle Identity</h3>
-            <p>
-                The concept could evolve by combining QR,
-                NFC, IoT sensors, GPS, AI-based event detection,
-                automated alerts and smart-city infrastructure.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-<section id="future">
-
-    <div class="section-title">
-        <h2>Future Development</h2>
-        <p>Where QR-VISION could go next</p>
-    </div>
-
-    <div class="grid">
-
-        <div class="card future">
-            <div class="icon">📡</div>
-            <h3>IoT Sensors</h3>
-            <p>
-                Vehicle sensors could provide selected real-time
-                information to a connected platform.
-            </p>
-        </div>
-
-        <div class="card future">
-            <div class="icon">📍</div>
-            <h3>GPS Integration</h3>
-            <p>
-                Future versions could integrate location services
-                where legally and technically appropriate.
-            </p>
-        </div>
-
-        <div class="card future">
-            <div class="icon">🧠</div>
-            <h3>AI Event Detection</h3>
-            <p>
-                AI could potentially analyze sensor data to detect
-                unusual events and support emergency workflows.
-            </p>
-        </div>
-
-        <div class="card future">
-            <div class="icon">📲</div>
-            <h3>NFC Layer</h3>
-            <p>
-                NFC could provide another short-range digital
-                identification method alongside QR.
-            </p>
-        </div>
-
-        <div class="card future">
-            <div class="icon">🚨</div>
-            <h3>Smart Alerts</h3>
-            <p>
-                Future systems could notify authorized contacts
-                when predefined conditions are detected.
-            </p>
-        </div>
-
-        <div class="card future">
-            <div class="icon">🏙️</div>
-            <h3>Smart Cities</h3>
-            <p>
-                Vehicle identity systems could potentially
-                integrate with wider intelligent transport systems.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-<section>
-
-    <div class="section-title">
-        <h2>Why QR-VISION?</h2>
-    </div>
-
-    <div class="grid">
-
-        <div class="card">
-            <div class="icon">⚡</div>
-            <h3>Fast Access</h3>
-            <p>
-                A scan can connect a physical vehicle identifier
-                with a digital information page.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🌐</div>
-            <h3>Digital Layer</h3>
-            <p>
-                Information can be organized digitally instead of
-                placing every detail directly on the physical plate.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🔗</div>
-            <h3>Expandable</h3>
-            <p>
-                The same concept can later connect to other
-                technologies such as NFC, IoT and AI.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🛡️</div>
-            <h3>Privacy-Aware Design</h3>
-            <p>
-                A real implementation should separate public
-                information from sensitive information using proper
-                authorization and security controls.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-<section id="about">
-
-    <div class="section-title">
-        <h2>About The Prototype</h2>
-    </div>
-
-    <div class="card" style="max-width:900px;margin:auto;text-align:center;">
-
-        <p>
-            QR-VISION is a science-project prototype demonstrating
-            how QR technology can create a digital identity layer
-            for a physical vehicle number plate.
-        </p>
-
-        <br>
-
-        <p>
-            The current demonstration consists of a physical
-            prototype plate, QR code and web-based vehicle profile.
-        </p>
-
-        <br>
-
-        <p>
-            GPS tracking, AI accident detection, IoT sensing,
-            emergency automation and smart-city integration are
-            <strong style="color:#00f6ff;">future concepts</strong>,
-            not active functions of this prototype.
-        </p>
-
-        <br>
-
-        <p style="color:#00f6ff;">
-            All information shown on this demonstration website is fictional.
-        </p>
-
-        <br>
-
-        <button class="btn" onclick="openModal()">
-            VIEW DEMO ARCHITECTURE
-        </button>
-
-    </div>
-
-</section>
-
-<footer>
-    <strong>QR-VISION</strong>
-    <br><br>
-    Smart Digital Vehicle Identity System
-    <br><br>
-    Science Project Prototype • Educational Demonstration
-</footer>
-
-<div class="modal" id="modal">
-
-    <div class="modal-content">
-
-        <span class="close" onclick="closeModal()">×</span>
-
-        <h2 style="color:#00f6ff;margin-bottom:20px;">
-            QR-VISION Architecture
-        </h2>
-
-        <p style="color:#8e98a8;line-height:1.8;">
-            Physical Number Plate
-            →
-            QR Code
-            →
-            Web URL
-            →
-            Digital Vehicle Profile
-            →
-            Future IoT / GPS / AI / NFC Integration
-        </p>
-
-        <br>
-
-        <p style="color:#8e98a8;line-height:1.8;">
-            Important: the QR code itself stores a URL.
-            The detailed information is displayed by the webpage
-            opened through that URL.
-        </p>
-
-    </div>
+<p>
+<b>Owner:</b>
+Protected Information
+</p>
 
 </div>
 
+<br>
+
+<button class="blue" onclick="scanQR()">
+📱 Scan QR
+</button>
+
+<button class="red" onclick="emergency()">
+🚨 Emergency
+</button>
+
+</div>
+
+
+
+<!-- QR -->
+
+<div class="card center">
+
+<h2>📱 QR Digital Identity</h2>
+
+<p>
+A QR code can be attached to the vehicle
+number plate.
+</p>
+
+<div class="qr">
+▦
+</div>
+
+<p>
+<b>QR ID</b>
+</p>
+
+<p>
+QRV-2026-001
+</p>
+
+<div id="qrMessage" class="message">
+
+Ready to scan
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- DIGITAL PROFILE -->
+
+<div class="card">
+
+<h2>🆔 Digital Vehicle Information</h2>
+
+<p>
+When the QR code is scanned, the system
+opens a digital vehicle profile.
+</p>
+
+<div class="info">
+
+<p>
+<b>Registration Number:</b>
+KA 50 AP 6767
+</p>
+
+<p>
+<b>Vehicle ID:</b>
+QRV-2026-001
+</p>
+
+<p>
+<b>Vehicle Type:</b>
+Car
+</p>
+
+<p>
+<b>Status:</b>
+Active
+</p>
+
+<p>
+<b>Emergency System:</b>
+Ready
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- GPS -->
+
+<div class="grid">
+
+
+<div class="card">
+
+<h2>📍 GPS Location Demo</h2>
+
+<p>
+This demonstrates how the vehicle location
+can be monitored.
+</p>
+
+<br>
+
+<div class="map">
+
+<div class="road1"></div>
+
+<div class="road2"></div>
+
+<div class="zone"></div>
+
+<div id="car" class="car-marker">
+🚗
+</div>
+
+</div>
+
+<p id="location" class="location">
+📍 Vehicle is inside the safe zone.
+</p>
+
+<br>
+
+<button class="green" onclick="safeLocation()">
+📍 Safe Location
+</button>
+
+<button class="red" onclick="outsideLocation()">
+⚠️ Outside Zone
+</button>
+
+<div id="geoAlert" class="message">
+
+✓ Geofence: Vehicle is safe
+
+</div>
+
+</div>
+
+
+
+<!-- STATUS -->
+
+<div class="card">
+
+<h2>📊 Vehicle Status</h2>
+
+<div class="status-row">
+
+<span>QR Identity</span>
+
+<b>ACTIVE</b>
+
+</div>
+
+
+<div class="status-row">
+
+<span>GPS</span>
+
+<b>ON</b>
+
+</div>
+
+
+<div class="status-row">
+
+<span>Geofence</span>
+
+<b id="geoStatus">SAFE</b>
+
+</div>
+
+
+<div class="status-row">
+
+<span>Emergency System</span>
+
+<b id="emergencyStatus">READY</b>
+
+</div>
+
+
+<div class="status-row">
+
+<span>Vehicle Health</span>
+
+<b>GOOD</b>
+
+</div>
+
+<br>
+
+<button class="red" onclick="accident()">
+💥 Simulate Accident
+</button>
+
+<div id="accidentAlert" class="message">
+
+✓ No accident detected
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- EMERGENCY -->
+
+<div class="card">
+
+<h2>🚨 Emergency Assistance</h2>
+
+<p>
+If an emergency is detected, the system can
+generate an alert containing the vehicle ID
+and location.
+</p>
+
+<br>
+
+<button class="red" onclick="emergency()">
+🚨 Send Emergency Alert
+</button>
+
+<div id="emergencyMessage" class="message">
+
+Emergency system ready.
+
+</div>
+
+</div>
+
+
+
+<!-- HOW IT WORKS -->
+
+<div class="card">
+
+<h2>⚙️ How QR-VISION Works</h2>
+
+<div class="info">
+
+<p>
+<b>1️⃣ QR Code</b> → Attached to the vehicle number plate
+</p>
+
+<p>
+<b>2️⃣ Scan</b> → Opens the digital vehicle profile
+</p>
+
+<p>
+<b>3️⃣ Identification</b> → Vehicle information is displayed
+</p>
+
+<p>
+<b>4️⃣ GPS</b> → Vehicle location can be monitored
+</p>
+
+<p>
+<b>5️⃣ Geofence</b> → System detects if vehicle leaves the safe area
+</p>
+
+<p>
+<b>6️⃣ Emergency</b> → Alert can be generated
+</p>
+
+<p>
+<b>7️⃣ Accident Detection</b> → Future sensors/AI can detect possible accidents
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- FUTURE TECHNOLOGY -->
+
+<div class="card">
+
+<h2>🚀 Future Development</h2>
+
+<p>
+QR-VISION can be expanded using IoT, GPS,
+sensors and Artificial Intelligence.
+</p>
+
+<div class="future">
+
+<div class="future-box">
+📡
+<h3>IoT</h3>
+<p>Connected vehicle devices</p>
+</div>
+
+<div class="future-box">
+📍
+<h3>GPS</h3>
+<p>Live location monitoring</p>
+</div>
+
+<div class="future-box">
+🧠
+<h3>AI</h3>
+<p>Accident detection</p>
+</div>
+
+<div class="future-box">
+🔔
+<h3>Alerts</h3>
+<p>Emergency notifications</p>
+</div>
+
+<div class="future-box">
+📊
+<h3>Analytics</h3>
+<p>Vehicle data monitoring</p>
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<footer>
+
+QR-VISION © 2026 | Science Project Prototype
+
+</footer>
+
+
+
 <script>
-function openModal(){
-    document.getElementById("modal").style.display="flex";
+
+
+/* QR SCAN */
+
+function scanQR(){
+
+document.getElementById("qrMessage").innerHTML =
+"✓ QR scanned! Digital vehicle profile opened.";
+
+document.getElementById("qrMessage").className =
+"message";
+
 }
 
-function closeModal(){
-    document.getElementById("modal").style.display="none";
+
+/* EMERGENCY */
+
+function emergency(){
+
+document.getElementById("emergencyStatus").innerHTML =
+"ALERT SENT";
+
+document.getElementById("emergencyMessage").innerHTML =
+"🚨 Emergency alert generated for vehicle QRV-2026-001.";
+
+document.getElementById("emergencyMessage").className =
+"message warning";
+
+document.getElementById("mainStatus").innerHTML =
+"● EMERGENCY";
+
+document.getElementById("mainStatus").className =
+"status danger-status";
+
 }
 
-window.onclick=function(event){
-    const modal=document.getElementById("modal");
 
-    if(event.target===modal){
-        modal.style.display="none";
-    }
-};
+/* SAFE LOCATION */
+
+function safeLocation(){
+
+let car = document.getElementById("car");
+
+car.style.left = "130px";
+
+car.style.top = "130px";
+
+document.getElementById("location").innerHTML =
+"📍 Vehicle is inside the safe zone.";
+
+document.getElementById("geoStatus").innerHTML =
+"SAFE";
+
+document.getElementById("geoAlert").innerHTML =
+"✓ Geofence: Vehicle is safe";
+
+document.getElementById("geoAlert").className =
+"message";
+
+}
+
+
+/* OUTSIDE LOCATION */
+
+function outsideLocation(){
+
+let car = document.getElementById("car");
+
+car.style.left = "270px";
+
+car.style.top = "235px";
+
+document.getElementById("location").innerHTML =
+"⚠️ Vehicle is outside the safe zone!";
+
+document.getElementById("geoStatus").innerHTML =
+"ALERT";
+
+document.getElementById("geoAlert").innerHTML =
+"⚠️ GEOFENCE ALERT: Vehicle left the safe zone!";
+
+document.getElementById("geoAlert").className =
+"message warning";
+
+}
+
+
+/* ACCIDENT */
+
+function accident(){
+
+document.getElementById("accidentAlert").innerHTML =
+"🚨 POSSIBLE ACCIDENT DETECTED! Alert generated.";
+
+document.getElementById("accidentAlert").className =
+"message warning";
+
+document.getElementById("mainStatus").innerHTML =
+"● POSSIBLE ACCIDENT";
+
+document.getElementById("mainStatus").className =
+"status danger-status";
+
+}
+
+
+/* RESET STATUS WHEN SAFE */
+
+document.getElementById("mainStatus").addEventListener(
+"click",
+function(){
+
+this.innerHTML = "● ACTIVE";
+
+this.className = "status active";
+
+}
+);
+
 </script>
+
 
 </body>
 </html>
