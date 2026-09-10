@@ -4,792 +4,4504 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>QR-VISION</title>
+<title>QR-VISION | Smart Vehicle Safety System</title>
 
 <style>
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+/* =========================================================
+   GLOBAL SETTINGS
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
-body{
-    font-family:Arial, sans-serif;
-    background:#eef2f7;
-    color:#172033;
+:root {
+    --bg: #050816;
+    --bg2: #081126;
+    --card: #0d1730;
+    --card2: #111d3c;
+    --text: #f4f7ff;
+    --muted: #9ca9c9;
+    --cyan: #00eaff;
+    --blue: #2778ff;
+    --green: #24e38a;
+    --yellow: #ffd447;
+    --red: #ff416c;
+    --purple: #9b5cff;
+    --border: rgba(0,234,255,0.18);
+    --shadow: 0 20px 50px rgba(0,0,0,0.35);
 }
 
-header{
-    background:#172033;
-    color:white;
-    text-align:center;
-    padding:30px 15px;
+html {
+    background: var(--bg);
 }
 
-header h1{
-    font-size:38px;
-    letter-spacing:2px;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(0,234,255,0.08), transparent 25%),
+        radial-gradient(circle at 85% 20%, rgba(155,92,255,0.08), transparent 25%),
+        linear-gradient(135deg, #030611, #071027 50%, #040817);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
 }
 
-header p{
-    margin-top:8px;
-    color:#cbd5e1;
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
 }
 
-.container{
-    max-width:1100px;
-    margin:25px auto;
-    padding:0 15px;
+::-webkit-scrollbar-track {
+    background: #030611;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:20px;
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--cyan), var(--purple));
+    border-radius: 20px;
 }
 
-.card{
-    background:white;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
-    margin-bottom:20px;
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 7%;
+    background: rgba(3,7,20,0.88);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border);
 }
 
-.card h2{
-    margin-bottom:15px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 2px;
 }
 
-.vehicle-icon{
-    font-size:80px;
-    text-align:center;
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--cyan);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+    font-size: 21px;
+    box-shadow: 0 0 20px rgba(0,234,255,0.25);
 }
 
-.plate{
-    background:white;
-    border:4px solid #111;
-    border-radius:6px;
-    display:inline-block;
-    padding:10px 25px;
-    font-size:24px;
-    font-weight:bold;
-    letter-spacing:3px;
-    margin:15px 0;
+.logo span {
+    color: var(--cyan);
 }
 
-.center{
-    text-align:center;
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
 }
 
-.status{
-    display:inline-block;
-    padding:8px 15px;
-    border-radius:20px;
-    font-weight:bold;
-    margin:8px;
+.nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.active{
-    background:#dcfce7;
-    color:#166534;
+.nav-links a:hover {
+    color: var(--cyan);
 }
 
-.danger-status{
-    background:#fee2e2;
-    color:#991b1b;
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 88vh;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: center;
+    padding: 80px 8%;
+    position: relative;
+    overflow: hidden;
 }
 
-.info{
-    margin-top:15px;
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 1px solid rgba(0,234,255,0.08);
+    border-radius: 50%;
+    right: -150px;
+    top: 80px;
 }
 
-.info p{
-    padding:9px 0;
-    border-bottom:1px solid #e5e7eb;
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border: 1px solid rgba(155,92,255,0.06);
+    border-radius: 50%;
+    right: -250px;
+    top: -30px;
 }
 
-.qr{
-    width:170px;
-    height:170px;
-    margin:20px auto;
-    border:8px solid #111;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:100px;
-    background:white;
+.badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(0,234,255,0.3);
+    color: var(--cyan);
+    background: rgba(0,234,255,0.05);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
 }
 
-button{
-    border:none;
-    border-radius:10px;
-    padding:13px 18px;
-    margin:5px;
-    font-size:14px;
-    font-weight:bold;
-    cursor:pointer;
+.hero h1 {
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -4px;
+    margin-bottom: 25px;
 }
 
-.blue{
-    background:#2563eb;
-    color:white;
+.hero h1 span {
+    color: var(--cyan);
+    text-shadow: 0 0 30px rgba(0,234,255,0.25);
 }
 
-.red{
-    background:#dc2626;
-    color:white;
+.hero p {
+    max-width: 680px;
+    color: var(--muted);
+    font-size: 18px;
+    margin-bottom: 30px;
 }
 
-.green{
-    background:#16a34a;
-    color:white;
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
 }
 
-.black{
-    background:#172033;
-    color:white;
+.btn {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.25s;
 }
 
-button:hover{
-    opacity:0.85;
+.btn-primary {
+    background: var(--cyan);
+    color: #001018;
 }
 
-.message{
-    padding:13px;
-    margin-top:15px;
-    border-radius:10px;
-    background:#dcfce7;
-    color:#166534;
-    font-weight:bold;
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,234,255,0.25);
 }
 
-.warning{
-    background:#fee2e2;
-    color:#991b1b;
+.btn-outline {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
 }
 
-.map{
-    height:320px;
-    background:#dfe7ef;
-    border-radius:15px;
-    position:relative;
-    overflow:hidden;
-    border:2px solid #cbd5e1;
+.btn-outline:hover {
+    background: rgba(0,234,255,0.08);
 }
 
-.road1{
-    position:absolute;
-    width:100%;
-    height:55px;
-    top:130px;
-    background:#c4ccd5;
+/* =========================================================
+   HERO VEHICLE VISUAL
+========================================================= */
+
+.vehicle-visual {
+    position: relative;
+    min-height: 440px;
+    display: grid;
+    place-items: center;
 }
 
-.road2{
-    position:absolute;
-    width:55px;
-    height:100%;
-    left:170px;
-    background:#c4ccd5;
+.vehicle-orbit {
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0,234,255,0.22);
+    display: grid;
+    place-items: center;
+    animation: rotate 25s linear infinite;
 }
 
-.zone{
-    position:absolute;
-    width:210px;
-    height:170px;
-    left:55px;
-    top:75px;
-    border:4px dashed #16a34a;
-    border-radius:50%;
-    background:rgba(34,197,94,0.12);
+.vehicle-orbit::before {
+    content: "";
+    width: 290px;
+    height: 290px;
+    border-radius: 50%;
+    border: 1px solid rgba(155,92,255,0.2);
+    position: absolute;
 }
 
-.car-marker{
-    position:absolute;
-    left:130px;
-    top:130px;
-    font-size:38px;
-    transition:0.7s;
+.vehicle-card {
+    position: absolute;
+    width: 290px;
+    padding: 35px 25px;
+    text-align: center;
+    background: rgba(13,23,48,0.92);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    box-shadow: var(--shadow), 0 0 40px rgba(0,234,255,0.08);
+    z-index: 2;
 }
 
-.location{
-    margin-top:12px;
-    font-weight:bold;
+.car-icon {
+    font-size: 85px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 15px rgba(0,234,255,0.3));
 }
 
-.status-row{
-    display:flex;
-    justify-content:space-between;
-    padding:14px 0;
-    border-bottom:1px solid #e5e7eb;
+.plate {
+    display: inline-block;
+    padding: 7px 20px;
+    background: #f4f4f4;
+    color: #111;
+    border-radius: 5px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-top: 10px;
 }
 
-.future{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-top:15px;
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 15px;
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: rgba(36,227,138,0.08);
+    color: var(--green);
+    font-size: 12px;
 }
 
-.future-box{
-    padding:18px;
-    background:#f1f5f9;
-    border-radius:12px;
-    text-align:center;
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--green);
 }
 
-footer{
-    text-align:center;
-    padding:25px;
-    color:#64748b;
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   COMMON SECTION
+========================================================= */
+
+section {
+    padding: 90px 8%;
+}
+
+.section-head {
+    max-width: 800px;
+    margin-bottom: 45px;
+}
+
+.section-label {
+    color: var(--cyan);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.section-head h2 {
+    font-size: clamp(32px, 5vw, 55px);
+    line-height: 1.05;
+    margin-bottom: 15px;
+}
+
+.section-head p {
+    color: var(--muted);
+}
+
+/* =========================================================
+   PROBLEM SECTION
+========================================================= */
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.problem-card {
+    background: linear-gradient(145deg, var(--card), #091127);
+    border: 1px solid var(--border);
+    padding: 28px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.problem-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(0,234,255,0.4);
+}
+
+.problem-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.problem-card h3 {
+    margin-bottom: 10px;
+}
+
+.problem-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================================================
+   SOLUTION
+========================================================= */
+
+.solution-wrapper {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.solution-visual {
+    min-height: 450px;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    background:
+        linear-gradient(rgba(0,234,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,234,255,0.04) 1px, transparent 1px),
+        var(--card);
+    background-size: 35px 35px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.solution-car {
+    font-size: 100px;
+    z-index: 2;
+}
+
+.radar {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 2px solid rgba(0,234,255,0.18);
+    border-radius: 50%;
+}
+
+.radar::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background: var(--cyan);
+    top: 50%;
+    left: 50%;
+    transform-origin: left;
+    animation: radarSweep 3s linear infinite;
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+@keyframes radarSweep {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.solution-list {
+    display: grid;
+    gap: 15px;
+}
+
+.solution-item {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    gap: 15px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    background: rgba(13,23,48,0.6);
+    border-radius: 15px;
+}
+
+.solution-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: rgba(0,234,255,0.08);
+    color: var(--cyan);
+    font-weight: bold;
+}
+
+.solution-item h3 {
+    font-size: 16px;
+}
+
+.solution-item p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   VEHICLE PROFILE
+========================================================= */
+
+.profile-section {
+    background: rgba(255,255,255,0.015);
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.profile-card,
+.control-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.card-title h3 {
+    font-size: 20px;
+}
+
+.live {
+    color: var(--green);
+    font-size: 12px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.vehicle-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: rgba(0,234,255,0.08);
+    border: 1px solid rgba(0,234,255,0.2);
+    display: grid;
+    place-items: center;
+    font-size: 40px;
+}
+
+.profile-top h4 {
+    font-size: 21px;
+}
+
+.profile-top p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.data-box {
+    padding: 15px;
+    background: rgba(255,255,255,0.025);
+    border-radius: 12px;
+}
+
+.data-box small {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.data-box strong {
+    display: block;
+    margin-top: 4px;
+}
+
+/* =========================================================
+   CONTROL CENTER
+========================================================= */
+
+.control-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.control-btn {
+    min-height: 100px;
+    border: 1px solid var(--border);
+    background: #0a142b;
+    border-radius: 15px;
+    color: var(--text);
+    cursor: pointer;
+    transition: 0.25s;
+    padding: 15px;
+}
+
+.control-btn:hover {
+    transform: translateY(-4px);
+    border-color: var(--cyan);
+}
+
+.control-btn .icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.control-btn small {
+    display: block;
+    color: var(--muted);
+}
+
+.emergency-btn {
+    border-color: rgba(255,65,108,0.3);
+}
+
+.emergency-btn:hover {
+    border-color: var(--red);
+    background: rgba(255,65,108,0.06);
+}
+
+.location-btn:hover {
+    border-color: var(--green);
+}
+
+.accident-btn:hover {
+    border-color: var(--yellow);
+}
+
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
+
+.message-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(0,234,255,0.05);
+    border: 1px solid rgba(0,234,255,0.1);
+    color: var(--muted);
+    font-size: 13px;
+    min-height: 55px;
+}
+
+.message-box.active {
+    color: var(--text);
+}
+
+/* =========================================================
+   MAP SECTION
+========================================================= */
+
+.map-section {
+    padding-top: 30px;
+}
+
+.map-container {
+    min-height: 550px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    background:
+        linear-gradient(90deg, rgba(0,234,255,0.04) 1px, transparent 1px),
+        linear-gradient(rgba(0,234,255,0.04) 1px, transparent 1px),
+        #071024;
+    background-size: 55px 55px;
+}
+
+.map-road {
+    position: absolute;
+    background: #111c35;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.road-one {
+    width: 100%;
+    height: 75px;
+    top: 38%;
+    transform: rotate(-8deg);
+}
+
+.road-two {
+    width: 100%;
+    height: 65px;
+    top: 68%;
+    transform: rotate(12deg);
+}
+
+.road-three {
+    height: 100%;
+    width: 65px;
+    left: 50%;
+    transform: rotate(15deg);
+}
+
+.road-four {
+    height: 100%;
+    width: 50px;
+    left: 23%;
+    transform: rotate(-12deg);
+}
+
+.map-label {
+    position: absolute;
+    color: rgba(255,255,255,0.35);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.label-one {
+    left: 10%;
+    top: 20%;
+}
+
+.label-two {
+    right: 12%;
+    top: 30%;
+}
+
+.label-three {
+    left: 60%;
+    bottom: 15%;
+}
+
+.geofence {
+    position: absolute;
+    width: 330px;
+    height: 250px;
+    border: 2px dashed var(--green);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(36,227,138,0.035);
+}
+
+.geofence-title {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--green);
+    font-size: 11px;
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.car-marker {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: var(--cyan);
+    color: #001018;
+    display: grid;
+    place-items: center;
+    font-size: 27px;
+    box-shadow: 0 0 30px rgba(0,234,255,0.5);
+    z-index: 10;
+    transition: 1s;
+}
+
+.map-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 15px 18px;
+    background: rgba(4,9,23,0.9);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    min-width: 240px;
+}
+
+.map-info span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.map-info strong {
+    display: block;
+    margin-top: 4px;
+}
+
+/* =========================================================
+   GEOFENCE
+========================================================= */
+
+.geofence-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.geo-btn {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: #0a142b;
+    cursor: pointer;
+}
+
+.geo-btn:hover {
+    border-color: var(--green);
+}
+
+/* =========================================================
+   ACCIDENT DETECTION
+========================================================= */
+
+.accident-section {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,65,108,0.07), transparent 35%),
+        rgba(255,255,255,0.01);
+}
+
+.accident-panel {
+    background: var(--card);
+    border: 1px solid rgba(255,65,108,0.18);
+    border-radius: 25px;
+    padding: 35px;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.sensor {
+    padding: 20px;
+    background: #09132b;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.sensor-name {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.sensor-value {
+    font-size: 27px;
+    font-weight: 900;
+    margin-top: 8px;
+}
+
+.sensor-unit {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.alert-console {
+    background: #030713;
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-family: monospace;
+    min-height: 160px;
+}
+
+.console-line {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.console-line.success {
+    color: var(--green);
+}
+
+.console-line.warning {
+    color: var(--yellow);
+}
+
+.console-line.danger {
+    color: var(--red);
+}
+
+/* =========================================================
+   TECHNOLOGY STACK
+========================================================= */
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.tech-card {
+    padding: 25px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    transition: 0.3s;
+}
+
+.tech-card:hover {
+    transform: translateY(-5px);
+}
+
+.tech-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.tech-card h3 {
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.tech-card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   THREE LEVEL SYSTEM
+========================================================= */
+
+.levels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.level-card {
+    position: relative;
+    padding: 30px;
+    min-height: 330px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.level-card::before {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    right: -70px;
+    top: -70px;
+    background: rgba(0,234,255,0.06);
+}
+
+.level-number {
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.level-card h3 {
+    font-size: 26px;
+    margin: 15px 0;
+}
+
+.level-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.level-list {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.level-list li {
+    margin: 9px 0;
+    color: #d8def0;
+    font-size: 13px;
+}
+
+.level-list li::before {
+    content: "✓";
+    color: var(--green);
+    margin-right: 8px;
+}
+
+/* =========================================================
+   AI SECTION
+========================================================= */
+
+.ai-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.ai-card {
+    padding: 30px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+}
+
+.ai-brain {
+    min-height: 300px;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle, rgba(155,92,255,0.15), transparent 55%),
+        #081027;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.brain-symbol {
+    font-size: 100px;
+    filter: drop-shadow(0 0 30px rgba(155,92,255,0.4));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+.ai-points {
+    display: grid;
+    gap: 12px;
+}
+
+.ai-point {
+    padding: 17px;
+    border-left: 3px solid var(--purple);
+    background: rgba(155,92,255,0.04);
+}
+
+.ai-point strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ai-point span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.security-card {
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--card);
+}
+
+.security-card .security-icon {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.security-card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   APPLICATIONS
+========================================================= */
+
+.application-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.application {
+    padding: 25px;
+    background: linear-gradient(145deg, #0c1731, #081127);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.application-icon {
+    font-size: 34px;
+}
+
+.application h3 {
+    margin: 12px 0 6px;
+}
+
+.application p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+.roadmap {
+    position: relative;
+    max-width: 950px;
+    margin: auto;
+}
+
+.roadmap::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(var(--cyan), var(--purple));
+    transform: translateX(-50%);
+}
+
+.road-item {
+    width: 50%;
+    padding: 20px 45px;
+    position: relative;
+}
+
+.road-item:nth-child(odd) {
+    left: 0;
+    text-align: right;
+}
+
+.road-item:nth-child(even) {
+    left: 50%;
+}
+
+.road-item::after {
+    content: "";
+    position: absolute;
+    top: 30px;
+    width: 14px;
+    height: 14px;
+    background: var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+.road-item:nth-child(odd)::after {
+    right: -7px;
+}
+
+.road-item:nth-child(even)::after {
+    left: -7px;
+}
+
+.road-content {
+    padding: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+}
+
+.road-content small {
+    color: var(--cyan);
+    font-weight: bold;
+}
+
+.road-content h3 {
+    margin: 8px 0;
+}
+
+.road-content p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   DATA TABLE
+========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th,
+td {
+    padding: 17px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+th {
+    color: var(--cyan);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    color: #dce3f6;
+    font-size: 13px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq {
+    max-width: 900px;
+    margin: auto;
+}
+
+.faq-item {
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 15px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.35s;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 0 20px;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 200px;
+    padding-bottom: 20px;
+}
+
+/* =========================================================
+   PROJECT INFORMATION
+========================================================= */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 27px;
+    border-radius: 20px;
+}
+
+.info-card h3 {
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================================================
+   PRESENTATION FLOW
+========================================================= */
+
+.flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.flow-step {
+    width: 190px;
+    min-height: 150px;
+    padding: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+}
+
+.flow-step:first-child {
+    border-radius: 15px 0 0 15px;
+}
+
+.flow-step:last-child {
+    border-radius: 0 15px 15px 0;
+}
+
+.flow-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.flow-step h4 {
+    font-size: 14px;
+}
+
+.flow-step p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 60px 8% 30px;
+    background: #02050e;
+    border-top: 1px solid var(--border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-brand p {
+    color: var(--muted);
+    max-width: 450px;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.footer-column h4 {
+    margin-bottom: 15px;
+}
+
+.footer-column p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 7px 0;
+}
+
+.copyright {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 22px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 2000;
+    max-width: 340px;
+    padding: 17px 20px;
+    border-radius: 14px;
+    background: #0e1934;
+    border: 1px solid var(--cyan);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: 0.35s;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.toast span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .problem-grid,
+    .tech-grid,
+    .application-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .solution-wrapper,
+    .ai-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .levels,
+    .security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sensor-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .profile-container,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:700px) {
+
+    .navbar {
+        padding: 15px 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    section {
+        padding: 65px 5%;
+    }
+
+    .hero {
+        padding: 60px 5%;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .vehicle-orbit {
+        width: 300px;
+        height: 300px;
+    }
+
+    .vehicle-card {
+        width: 250px;
+    }
+
+    .problem-grid,
+    .tech-grid,
+    .application-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sensor-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .control-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .flow {
+        flex-direction: column;
+    }
+
+    .flow-step,
+    .flow-step:first-child,
+    .flow-step:last-child {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .roadmap::before {
+        left: 10px;
+    }
+
+    .road-item,
+    .road-item:nth-child(even),
+    .road-item:nth-child(odd) {
+        width: 100%;
+        left: 0;
+        text-align: left;
+        padding-left: 35px;
+        padding-right: 0;
+    }
+
+    .road-item::after,
+    .road-item:nth-child(odd)::after,
+    .road-item:nth-child(even)::after {
+        left: 3px;
+        right: auto;
+    }
 }
 
 </style>
 </head>
 
-
 <body>
 
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
 
-<!-- HEADER -->
+<nav class="navbar">
 
-<header>
+    <div class="logo">
+        <div class="logo-icon">V</div>
+        QR<span>-VISION</span>
+    </div>
 
-<h1>🚗 QR-VISION</h1>
+    <ul class="nav-links">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#profile">Vehicle</a></li>
+        <li><a href="#gps">GPS</a></li>
+        <li><a href="#future">Future</a></li>
+    </ul>
 
-<p>
-Smart Digital Identity System for Vehicles
-</p>
+</nav>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            SMART VEHICLE SAFETY SYSTEM
+        </div>
+
+        <h1>
+            VEHICLE<br>
+            <span>VISION</span>
+        </h1>
+
+        <p>
+            A next-generation digital vehicle identity and safety
+            platform designed to connect vehicle information,
+            emergency assistance, GPS awareness, geofencing,
+            accident detection and intelligent technologies.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#profile">
+                <button class="btn btn-primary">
+                    Explore System
+                </button>
+            </a>
+
+            <a href="#future">
+                <button class="btn btn-outline">
+                    Future Technology
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="vehicle-visual">
+
+        <div class="vehicle-orbit"></div>
+
+        <div class="vehicle-card">
+
+            <div class="car-icon">
+                🚘
+            </div>
+
+            <h3>
+                Smart Vehicle
+            </h3>
+
+            <div class="plate">
+                KA 01 AB 2026
+            </div>
+
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                SYSTEM ACTIVE
+            </div>
+
+        </div>
+
+    </div>
 
 </header>
 
 
+<!-- =======================================================
+     PROBLEM
+======================================================= -->
 
-<div class="container">
+<section id="problem">
 
+    <div class="section-head">
 
-<!-- VEHICLE + QR -->
+        <div class="section-label">
+            01 / Problem
+        </div>
 
-<div class="grid">
+        <h2>
+            What problem are we solving?
+        </h2>
 
+        <p>
+            A conventional number plate identifies a vehicle,
+            but it does not provide an intelligent safety layer.
+            During emergencies, additional information and
+            communication can be difficult to access quickly.
+        </p>
 
-<!-- VEHICLE PROFILE -->
+    </div>
 
-<div class="card center">
 
-<div class="vehicle-icon">
-🚗
-</div>
+    <div class="problem-grid">
 
-<h2>Vehicle Profile</h2>
+        <div class="problem-card">
 
-<div class="plate">
-KA 50 VP 6767
-</div>
+            <div class="problem-icon">
+                🚗
+            </div>
 
-<br>
+            <h3>
+                Limited Vehicle Information
+            </h3>
 
-<span id="mainStatus" class="status active">
-● ACTIVE
-</span>
+            <p>
+                A normal number plate mainly displays a
+                registration number. It does not act as a
+                complete digital vehicle profile.
+            </p>
 
-<div class="info">
+        </div>
 
-<p>
-<b>Vehicle ID:</b>
-QRV-2026-001
-</p>
 
-<p>
-<b>Vehicle Type:</b>
-Car
-</p>
+        <div class="problem-card">
 
-<p>
-<b>Model:</b>
-BMW M5
-</p>
+            <div class="problem-icon">
+                🚨
+            </div>
 
-<p>
-<b>Fuel:</b>
-Petrol 
-</p>
+            <h3>
+                Emergency Delay
+            </h3>
 
-<p>
-<b>Owner:</b>
-Protected Information
-</p>
+            <p>
+                After an accident, identifying the vehicle
+                and communicating important information can
+                take valuable time.
+            </p>
 
-</div>
+        </div>
 
-<br>
 
-<button class="blue" onclick="scanQR()">
-📱 Scan QR
-</button>
+        <div class="problem-card">
 
-<button class="red" onclick="emergency()">
-🚨 Emergency
-</button>
+            <div class="problem-icon">
+                📍
+            </div>
 
-</div>
+            <h3>
+                Location Awareness
+            </h3>
 
+            <p>
+                A conventional vehicle number plate cannot
+                provide live location or indicate whether a
+                vehicle has entered a restricted zone.
+            </p>
 
+        </div>
 
-<!-- QR -->
+    </div>
 
-<div class="card center">
+</section>
 
-<h2>📱 QR Digital Identity</h2>
 
-<p>
-A QR code can be attached to the vehicle
-number plate.
-</p>
+<!-- =======================================================
+     SOLUTION
+======================================================= -->
 
-<div class="qr">
-▦
-</div>
+<section id="solution">
 
-<p>
-<b>QR ID</b>
-</p>
+    <div class="section-head">
 
-<p>
-QRV-2026-001
-</p>
+        <div class="section-label">
+            02 / Solution
+        </div>
 
-<div id="qrMessage" class="message">
+        <h2>
+            From a number plate to a smart identity system.
+        </h2>
 
-Ready to scan
+        <p>
+            QR-VISION transforms the idea of a traditional
+            vehicle identity into a digital safety platform.
+            This demonstration focuses on the software and
+            intelligent systems that can operate around a
+            vehicle identity.
+        </p>
 
-</div>
+    </div>
 
-</div>
 
-</div>
+    <div class="solution-wrapper">
 
+        <div class="solution-visual">
 
+            <div class="radar"></div>
 
-<!-- DIGITAL PROFILE -->
+            <div class="solution-car">
+                🚙
+            </div>
 
-<div class="card">
+        </div>
 
-<h2>🆔 Digital Vehicle Information</h2>
 
-<p>
-When the QR code is scanned, the system
-opens a digital vehicle profile.
-</p>
+        <div class="solution-list">
 
-<div class="info">
+            <div class="solution-item">
 
-<p>
-<b>Registration Number:</b>
-KA 50 AP 6767
-</p>
+                <div class="solution-number">
+                    01
+                </div>
 
-<p>
-<b>Vehicle ID:</b>
-QRV-2026-001
-</p>
+                <div>
+                    <h3>
+                        Digital Vehicle Profile
+                    </h3>
 
-<p>
-<b>Vehicle Type:</b>
-Car
-</p>
+                    <p>
+                        Store structured vehicle information
+                        in a digital profile for demonstration
+                        and future integration.
+                    </p>
+                </div>
 
-<p>
-<b>Status:</b>
-Active
-</p>
+            </div>
 
-<p>
-<b>Emergency System:</b>
-Ready
-</p>
 
-</div>
+            <div class="solution-item">
 
-</div>
+                <div class="solution-number">
+                    02
+                </div>
 
+                <div>
+                    <h3>
+                        Emergency Assistance
+                    </h3>
 
+                    <p>
+                        A dedicated emergency system can
+                        initiate an alert workflow when an
+                        emergency event occurs.
+                    </p>
+                </div>
 
-<!-- GPS -->
+            </div>
 
-<div class="grid">
 
+            <div class="solution-item">
 
-<div class="card">
+                <div class="solution-number">
+                    03
+                </div>
 
-<h2>📍 GPS Location Demo</h2>
+                <div>
+                    <h3>
+                        GPS Location Awareness
+                    </h3>
 
-<p>
-This demonstrates how the vehicle location
-can be monitored.
-</p>
+                    <p>
+                        GPS can provide the vehicle's position
+                        to an authorized system during an
+                        emergency.
+                    </p>
+                </div>
 
-<br>
+            </div>
 
-<div class="map">
 
-<div class="road1"></div>
+            <div class="solution-item">
 
-<div class="road2"></div>
+                <div class="solution-number">
+                    04
+                </div>
 
-<div class="zone"></div>
+                <div>
+                    <h3>
+                        Geofence Monitoring
+                    </h3>
 
-<div id="car" class="car-marker">
-🚗
-</div>
+                    <p>
+                        A virtual geographic boundary can
+                        generate alerts when a vehicle moves
+                        outside an allowed region.
+                    </p>
+                </div>
 
-</div>
+            </div>
 
-<p id="location" class="location">
-📍 Vehicle is inside the safe zone.
-</p>
 
-<br>
+            <div class="solution-item">
 
-<button class="green" onclick="safeLocation()">
-📍 Safe Location
-</button>
+                <div class="solution-number">
+                    05
+                </div>
 
-<button class="red" onclick="outsideLocation()">
-⚠️ Outside Zone
-</button>
+                <div>
+                    <h3>
+                        Intelligent Accident Detection
+                    </h3>
 
-<div id="geoAlert" class="message">
+                    <p>
+                        Future sensors can detect sudden
+                        impact, abnormal acceleration and
+                        other accident indicators.
+                    </p>
+                </div>
 
-✓ Geofence: Vehicle is safe
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
+</section>
 
 
-<!-- STATUS -->
+<!-- =======================================================
+     VEHICLE PROFILE
+======================================================= -->
 
-<div class="card">
+<section id="profile" class="profile-section">
 
-<h2>📊 Vehicle Status</h2>
+    <div class="section-head">
 
-<div class="status-row">
+        <div class="section-label">
+            03 / Digital Profile
+        </div>
 
-<span>QR Identity</span>
+        <h2>
+            Smart Vehicle Profile
+        </h2>
 
-<b>ACTIVE</b>
+        <p>
+            This demonstration uses fictional information
+            to show how a future vehicle identity dashboard
+            could work.
+        </p>
 
-</div>
+    </div>
 
 
-<div class="status-row">
+    <div class="profile-container">
 
-<span>GPS</span>
+        <div class="profile-card">
 
-<b>ON</b>
+            <div class="card-title">
 
-</div>
+                <h3>
+                    Vehicle Identity
+                </h3>
 
+                <div class="live">
+                    <span class="status-dot"></span>
+                    LIVE
+                </div>
 
-<div class="status-row">
+            </div>
 
-<span>Geofence</span>
 
-<b id="geoStatus">SAFE</b>
+            <div class="profile-top">
 
-</div>
+                <div class="vehicle-avatar">
+                    🚘
+                </div>
 
+                <div>
 
-<div class="status-row">
+                    <h4>
+                        Smart Sedan
+                    </h4>
 
-<span>Emergency System</span>
+                    <p>
+                        Digital Vehicle ID:
+                        QV-2026-001
+                    </p>
 
-<b id="emergencyStatus">READY</b>
+                </div>
 
-</div>
+            </div>
 
 
-<div class="status-row">
+            <div class="data-grid">
 
-<span>Vehicle Health</span>
+                <div class="data-box">
+                    <small>
+                        Registration
+                    </small>
 
-<b>GOOD</b>
+                    <strong>
+                        KA 01 AB 2026
+                    </strong>
+                </div>
 
-</div>
 
-<br>
+                <div class="data-box">
+                    <small>
+                        Vehicle Type
+                    </small>
 
-<button class="red" onclick="accident()">
-💥 Simulate Accident
-</button>
+                    <strong>
+                        Sedan
+                    </strong>
+                </div>
 
-<div id="accidentAlert" class="message">
 
-✓ No accident detected
+                <div class="data-box">
+                    <small>
+                        Fuel
+                    </small>
 
-</div>
+                    <strong>
+                        Electric / Hybrid
+                    </strong>
+                </div>
 
-</div>
 
-</div>
+                <div class="data-box">
+                    <small>
+                        System
+                    </small>
 
+                    <strong>
+                        Active
+                    </strong>
+                </div>
 
 
-<!-- EMERGENCY -->
+                <div class="data-box">
+                    <small>
+                        Safety Level
+                    </small>
 
-<div class="card">
+                    <strong>
+                        Protected
+                    </strong>
+                </div>
 
-<h2>🚨 Emergency Assistance</h2>
 
-<p>
-If an emergency is detected, the system can
-generate an alert containing the vehicle ID
-and location.
-</p>
+                <div class="data-box">
+                    <small>
+                        Last Check
+                    </small>
 
-<br>
+                    <strong>
+                        Today
+                    </strong>
+                </div>
 
-<button class="red" onclick="emergency()">
-🚨 Send Emergency Alert
-</button>
+            </div>
 
-<div id="emergencyMessage" class="message">
+        </div>
 
-Emergency system ready.
 
-</div>
+        <!-- CONTROL -->
 
-</div>
+        <div class="control-card">
 
+            <div class="card-title">
 
+                <h3>
+                    Live Control Center
+                </h3>
 
-<!-- HOW IT WORKS -->
+            </div>
 
-<div class="card">
 
-<h2>⚙️ How QR-VISION Works</h2>
+            <div class="control-buttons">
 
-<div class="info">
+                <button
+                    class="control-btn"
+                    onclick="showProfile()">
 
-<p>
-<b>1️⃣ QR Code</b> → Attached to the vehicle number plate
-</p>
+                    <span class="icon">
+                        📋
+                    </span>
 
-<p>
-<b>2️⃣ Scan</b> → Opens the digital vehicle profile
-</p>
+                    Vehicle Profile
 
-<p>
-<b>3️⃣ Identification</b> → Vehicle information is displayed
-</p>
+                    <small>
+                        View information
+                    </small>
 
-<p>
-<b>4️⃣ GPS</b> → Vehicle location can be monitored
-</p>
+                </button>
 
-<p>
-<b>5️⃣ Geofence</b> → System detects if vehicle leaves the safe area
-</p>
 
-<p>
-<b>6️⃣ Emergency</b> → Alert can be generated
-</p>
+                <button
+                    class="control-btn emergency-btn"
+                    onclick="triggerEmergency()">
 
-<p>
-<b>7️⃣ Accident Detection</b> → Future sensors/AI can detect possible accidents
-</p>
+                    <span class="icon">
+                        🚨
+                    </span>
 
-</div>
+                    Emergency
 
-</div>
+                    <small>
+                        Simulate alert
+                    </small>
 
+                </button>
 
 
-<!-- FUTURE TECHNOLOGY -->
+                <button
+                    class="control-btn location-btn"
+                    onclick="moveInside()">
 
-<div class="card">
+                    <span class="icon">
+                        📍
+                    </span>
 
-<h2>🚀 Future Development</h2>
+                    Safe Location
 
-<p>
-QR-VISION can be expanded using IoT, GPS,
-sensors and Artificial Intelligence.
-</p>
+                    <small>
+                        Inside zone
+                    </small>
 
-<div class="future">
+                </button>
 
-<div class="future-box">
-📡
-<h3>IoT</h3>
-<p>Connected vehicle devices</p>
-</div>
 
-<div class="future-box">
-📍
-<h3>GPS</h3>
-<p>Live location monitoring</p>
-</div>
+                <button
+                    class="control-btn location-btn"
+                    onclick="moveOutside()">
 
-<div class="future-box">
-🧠
-<h3>AI</h3>
-<p>Accident detection</p>
-</div>
+                    <span class="icon">
+                        🛰️
+                    </span>
 
-<div class="future-box">
-🔔
-<h3>Alerts</h3>
-<p>Emergency notifications</p>
-</div>
+                    Outside Zone
 
-<div class="future-box">
-📊
-<h3>Analytics</h3>
-<p>Vehicle data monitoring</p>
-</div>
+                    <small>
+                        Geofence test
+                    </small>
 
-</div>
+                </button>
 
-</div>
 
+                <button
+                    class="control-btn accident-btn"
+                    onclick="simulateAccident()">
 
-</div>
+                    <span class="icon">
+                        💥
+                    </span>
 
+                    Accident Test
 
+                    <small>
+                        Sensor simulation
+                    </small>
+
+                </button>
+
+
+                <button
+                    class="control-btn"
+                    onclick="resetSystem()">
+
+                    <span class="icon">
+                        🔄
+                    </span>
+
+                    Reset
+
+                    <small>
+                        Restore system
+                    </small>
+
+                </button>
+
+            </div>
+
+
+            <div id="systemMessage" class="message-box">
+
+                System ready.
+                Select a function to start the demonstration.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     GPS / MAP
+======================================================= -->
+
+<section id="gps" class="map-section">
+
+    <div class="section-head">
+
+        <div class="section-label">
+            04 / GPS + Geofence
+        </div>
+
+        <h2>
+            Location Intelligence
+        </h2>
+
+        <p>
+            The map below is a demonstration interface.
+            In a real implementation, GPS hardware and a
+            mapping service could provide live coordinates.
+        </p>
+
+    </div>
+
+
+    <div class="map-container">
+
+        <div class="map-road road-one"></div>
+
+        <div class="map-road road-two"></div>
+
+        <div class="map-road road-three"></div>
+
+        <div class="map-road road-four"></div>
+
+
+        <div class="map-label label-one">
+            NORTH DISTRICT
+        </div>
+
+        <div class="map-label label-two">
+            CITY CENTER
+        </div>
+
+        <div class="map-label label-three">
+            EAST ZONE
+        </div>
+
+
+        <div id="geofence" class="geofence">
+
+            <div class="geofence-title">
+                SAFE GEOFENCE AREA
+            </div>
+
+        </div>
+
+
+        <div id="carMarker" class="car-marker">
+            🚗
+        </div>
+
+
+        <div class="map-info">
+
+            <span>
+                VEHICLE LOCATION
+            </span>
+
+            <strong id="locationStatus">
+                Inside Safe Zone
+            </strong>
+
+            <span>
+                Demo Coordinates:
+                <b id="coordinates">
+                    13.0827, 80.2707
+                </b>
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="geofence-controls">
+
+        <button
+            class="geo-btn"
+            onclick="moveInside()">
+
+            ✓ Simulate Safe Zone
+
+        </button>
+
+
+        <button
+            class="geo-btn"
+            onclick="moveOutside()">
+
+            ⚠ Simulate Geofence Exit
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     ACCIDENT DETECTION
+======================================================= -->
+
+<section class="accident-section">
+
+    <div class="section-head">
+
+        <div class="section-label">
+            05 / Accident Detection
+        </div>
+
+        <h2>
+            Intelligent Accident Simulation
+        </h2>
+
+        <p>
+            A future vehicle can use sensors such as
+            accelerometers, gyroscopes and impact sensors
+            to detect abnormal motion.
+        </p>
+
+    </div>
+
+
+    <div class="accident-panel">
+
+        <div class="card-title">
+
+            <h3>
+                Sensor Monitoring Dashboard
+            </h3>
+
+            <div class="live">
+                <span class="status-dot"></span>
+                SENSOR ONLINE
+            </div>
+
+        </div>
+
+
+        <div class="sensor-grid">
+
+            <div class="sensor">
+
+                <div class="sensor-name">
+                    ACCELERATION
+                </div>
+
+                <div
+                    id="acceleration"
+                    class="sensor-value">
+
+                    1.2
+
+                </div>
+
+                <div class="sensor-unit">
+                    g
+                </div>
+
+            </div>
+
+
+            <div class="sensor">
+
+                <div class="sensor-name">
+                    SPEED
+                </div>
+
+                <div
+                    id="speed"
+                    class="sensor-value">
+
+                    48
+
+                </div>
+
+                <div class="sensor-unit">
+                    km/h
+                </div>
+
+            </div>
+
+
+            <div class="sensor">
+
+                <div class="sensor-name">
+                    IMPACT
+                </div>
+
+                <div
+                    id="impact"
+                    class="sensor-value">
+
+                    LOW
+
+                </div>
+
+                <div class="sensor-unit">
+                    sensor status
+                </div>
+
+            </div>
+
+
+            <div class="sensor">
+
+                <div class="sensor-name">
+                    SYSTEM
+                </div>
+
+                <div
+                    id="sensorSystem"
+                    class="sensor-value">
+
+                    OK
+
+                </div>
+
+                <div class="sensor-unit">
+                    overall status
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="simulateAccident()">
+
+            Simulate Accident Event
+
+        </button>
+
+
+        <div
+            id="console"
+            class="alert-console">
+
+            <div class="console-line success">
+                [SYSTEM] Sensor network initialized.
+            </div>
+
+            <div class="console-line">
+                [GPS] Location monitoring active.
+            </div>
+
+            <div class="console-line">
+                [AI] Accident detection model ready.
+            </div>
+
+            <div class="console-line success">
+                [STATUS] Vehicle operating normally.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     TECHNOLOGY
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            06 / Technology
+        </div>
+
+        <h2>
+            Technology Stack
+        </h2>
+
+        <p>
+            QR-VISION can evolve by combining several
+            technologies into one safety ecosystem.
+        </p>
+
+    </div>
+
+
+    <div class="tech-grid">
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                🛰️
+            </div>
+
+            <h3>
+                GPS
+            </h3>
+
+            <p>
+                Provides location information for vehicle
+                tracking and emergency response.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                📡
+            </div>
+
+            <h3>
+                IoT
+            </h3>
+
+            <p>
+                Connects sensors and vehicle hardware to
+                an intelligent digital platform.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                🤖
+            </div>
+
+            <h3>
+                Artificial Intelligence
+            </h3>
+
+            <p>
+                Can analyze sensor patterns and help
+                classify possible accident events.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                📱
+            </div>
+
+            <h3>
+                Mobile Alerts
+            </h3>
+
+            <p>
+                Emergency notifications can be sent to
+                authorized contacts and services.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                🗺️
+            </div>
+
+            <h3>
+                Digital Maps
+            </h3>
+
+            <p>
+                Displays vehicle position and geographic
+                safety boundaries.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                🔐
+            </div>
+
+            <h3>
+                Data Security
+            </h3>
+
+            <p>
+                Sensitive vehicle information should be
+                protected through authentication and
+                controlled access.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                📊
+            </div>
+
+            <h3>
+                Analytics
+            </h3>
+
+            <p>
+                Historical vehicle and safety data can
+                support maintenance and analysis.
+            </p>
+
+        </div>
+
+
+        <div class="tech-card">
+
+            <div class="tech-icon">
+                ☁️
+            </div>
+
+            <h3>
+                Cloud Platform
+            </h3>
+
+            <p>
+                A cloud backend can connect vehicles,
+                applications and authorized users.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     THREE LEVELS
+======================================================= -->
+
+<section id="future">
+
+    <div class="section-head">
+
+        <div class="section-label">
+            07 / Evolution
+        </div>
+
+        <h2>
+            Three Levels of QR-VISION
+        </h2>
+
+        <p>
+            The project is designed as an expandable concept:
+            starting with identification and moving toward
+            intelligent vehicle safety.
+        </p>
+
+    </div>
+
+
+    <div class="levels">
+
+        <div class="level-card">
+
+            <div class="level-number">
+                LEVEL 01
+            </div>
+
+            <h3>
+                DIGITAL
+            </h3>
+
+            <p>
+                Create a digital identity for every vehicle.
+            </p>
+
+            <ul class="level-list">
+
+                <li>
+                    Vehicle profile
+                </li>
+
+                <li>
+                    Vehicle identification
+                </li>
+
+                <li>
+                    Emergency information
+                </li>
+
+                <li>
+                    Digital dashboard
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="level-card">
+
+            <div class="level-number">
+                LEVEL 02
+            </div>
+
+            <h3>
+                SMART
+            </h3>
+
+            <p>
+                Connect the vehicle identity to sensors
+                and location technologies.
+            </p>
+
+            <ul class="level-list">
+
+                <li>
+                    GPS tracking
+                </li>
+
+                <li>
+                    Geofence monitoring
+                </li>
+
+                <li>
+                    IoT sensors
+                </li>
+
+                <li>
+                    Mobile alerts
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="level-card">
+
+            <div class="level-number">
+                LEVEL 03
+            </div>
+
+            <h3>
+                FUTURE
+            </h3>
+
+            <p>
+                Build an intelligent safety ecosystem
+                powered by AI and connected infrastructure.
+            </p>
+
+            <ul class="level-list">
+
+                <li>
+                    AI accident detection
+                </li>
+
+                <li>
+                    Automated emergency response
+                </li>
+
+                <li>
+                    Smart city integration
+                </li>
+
+                <li>
+                    Predictive safety analytics
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     AI
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            08 / Artificial Intelligence
+        </div>
+
+        <h2>
+            Where AI fits into the system
+        </h2>
+
+        <p>
+            Artificial intelligence can become the decision
+            layer between raw sensor data and automated safety
+            actions.
+        </p>
+
+    </div>
+
+
+    <div class="ai-wrapper">
+
+        <div class="ai-card">
+
+            <div class="ai-brain">
+
+                <div class="brain-symbol">
+                    🧠
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-card">
+
+            <div class="ai-points">
+
+                <div class="ai-point">
+
+                    <strong>
+                        Pattern Detection
+                    </strong>
+
+                    <span>
+                        AI can analyze acceleration,
+                        speed and impact patterns.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-point">
+
+                    <strong>
+                        False Alert Reduction
+                    </strong>
+
+                    <span>
+                        Multiple sensor inputs can be
+                        evaluated together instead of relying
+                        on one signal.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-point">
+
+                    <strong>
+                        Risk Classification
+                    </strong>
+
+                    <span>
+                        A future model could classify an
+                        event as normal, suspicious or
+                        potentially dangerous.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-point">
+
+                    <strong>
+                        Automated Response
+                    </strong>
+
+                    <span>
+                        After confirmation, the system could
+                        initiate an emergency workflow.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-point">
+
+                    <strong>
+                        Predictive Safety
+                    </strong>
+
+                    <span>
+                        Historical data could eventually
+                        support predictive maintenance
+                        and safety analytics.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     SECURITY
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            09 / Security
+        </div>
+
+        <h2>
+            Privacy and Security
+        </h2>
+
+        <p>
+            A real implementation must treat vehicle and
+            owner information as sensitive data.
+        </p>
+
+    </div>
+
+
+    <div class="security-grid">
+
+        <div class="security-card">
+
+            <div class="security-icon">
+                🔒
+            </div>
+
+            <h3>
+                Controlled Access
+            </h3>
+
+            <p>
+                Only authorized users should be able to
+                access private vehicle information.
+            </p>
+
+        </div>
+
+
+        <div class="security-card">
+
+            <div class="security-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Data Protection
+            </h3>
+
+            <p>
+                Personal information should be stored and
+                transmitted using appropriate security
+                mechanisms.
+            </p>
+
+        </div>
+
+
+        <div class="security-card">
+
+            <div class="security-icon">
+                👁️
+            </div>
+
+            <h3>
+                Privacy by Design
+            </h3>
+
+            <p>
+                The system should reveal only the information
+                necessary for the specific situation.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     APPLICATIONS
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            10 / Applications
+        </div>
+
+        <h2>
+            Where can it be used?
+        </h2>
+
+        <p>
+            A connected vehicle identity system could support
+            multiple real-world applications.
+        </p>
+
+    </div>
+
+
+    <div class="application-grid">
+
+        <div class="application">
+
+            <div class="application-icon">
+                🚑
+            </div>
+
+            <h3>
+                Emergency Response
+            </h3>
+
+            <p>
+                Faster access to vehicle information
+                during emergency situations.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🚓
+            </div>
+
+            <h3>
+                Traffic Management
+            </h3>
+
+            <p>
+                Connected vehicle systems could support
+                intelligent traffic infrastructure.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🏫
+            </div>
+
+            <h3>
+                School Transport
+            </h3>
+
+            <p>
+                Authorized monitoring and location awareness
+                for school transportation.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🚚
+            </div>
+
+            <h3>
+                Fleet Management
+            </h3>
+
+            <p>
+                Companies can monitor vehicle status,
+                location and safety events.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🏥
+            </div>
+
+            <h3>
+                Medical Assistance
+            </h3>
+
+            <p>
+                Emergency systems could provide important
+                information to authorized responders.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🏙️
+            </div>
+
+            <h3>
+                Smart Cities
+            </h3>
+
+            <p>
+                Connected vehicles can become part of
+                intelligent city infrastructure.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🛣️
+            </div>
+
+            <h3>
+                Highway Safety
+            </h3>
+
+            <p>
+                Accident alerts and location awareness
+                could support safer highways.
+            </p>
+
+        </div>
+
+
+        <div class="application">
+
+            <div class="application-icon">
+                🔧
+            </div>
+
+            <h3>
+                Vehicle Maintenance
+            </h3>
+
+            <p>
+                Connected sensors can support maintenance
+                reminders and vehicle health monitoring.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     SYSTEM FLOW
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            11 / System Flow
+        </div>
+
+        <h2>
+            How the system works
+        </h2>
+
+        <p>
+            This is the conceptual workflow of the future
+            QR-VISION ecosystem.
+        </p>
+
+    </div>
+
+
+    <div class="flow">
+
+        <div class="flow-step">
+
+            <div class="flow-icon">
+                🚘
+            </div>
+
+            <h4>
+                Vehicle
+            </h4>
+
+            <p>
+                Vehicle generates data.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="flow-icon">
+                📡
+            </div>
+
+            <h4>
+                Sensors
+            </h4>
+
+            <p>
+                Sensors collect information.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="flow-icon">
+                🛰️
+            </div>
+
+            <h4>
+                GPS
+            </h4>
+
+            <p>
+                Location is determined.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="flow-icon">
+                🤖
+            </div>
+
+            <h4>
+                AI
+            </h4>
+
+            <p>
+                Data is analyzed.
+            </p>
+
+        </div>
+
+
+        <div class="flow-step">
+
+            <div class="flow-icon">
+                🚨
+            </div>
+
+            <h4>
+                Alert
+            </h4>
+
+            <p>
+                Emergency action begins.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     VEHICLE DATA
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            12 / Data Model
+        </div>
+
+        <h2>
+            Example Vehicle Data
+        </h2>
+
+        <p>
+            The following information is fictional and used
+            only for the science-project demonstration.
+        </p>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Parameter
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                    <th>
+                        Purpose
+                    </th>
+
+                    <th>
+                        Future
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Vehicle ID
+                    </td>
+
+                    <td>
+                        QV-2026-001
+                    </td>
+
+                    <td>
+                        Digital identification
+                    </td>
+
+                    <td>
+                        Cloud identity
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Registration
+                    </td>
+
+                    <td>
+                        KA 01 AB 2026
+                    </td>
+
+                    <td>
+                        Vehicle reference
+                    </td>
+
+                    <td>
+                        Verified database
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Location
+                    </td>
+
+                    <td>
+                        Demo coordinates
+                    </td>
+
+                    <td>
+                        GPS awareness
+                    </td>
+
+                    <td>
+                        Live mapping
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Speed
+                    </td>
+
+                    <td>
+                        48 km/h
+                    </td>
+
+                    <td>
+                        Vehicle monitoring
+                    </td>
+
+                    <td>
+                        Intelligent analysis
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Impact
+                    </td>
+
+                    <td>
+                        Low
+                    </td>
+
+                    <td>
+                        Safety monitoring
+                    </td>
+
+                    <td>
+                        AI classification
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Zone
+                    </td>
+
+                    <td>
+                        Safe
+                    </td>
+
+                    <td>
+                        Geofence monitoring
+                    </td>
+
+                    <td>
+                        Automated alerts
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     ROADMAP
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            13 / Roadmap
+        </div>
+
+        <h2>
+            Future Development Roadmap
+        </h2>
+
+        <p>
+            The science-project prototype is only the first
+            stage of the concept.
+        </p>
+
+    </div>
+
+
+    <div class="roadmap">
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 01
+                </small>
+
+                <h3>
+                    Digital Prototype
+                </h3>
+
+                <p>
+                    Build the vehicle profile, dashboard,
+                    emergency interface and demonstration
+                    environment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 02
+                </small>
+
+                <h3>
+                    GPS Integration
+                </h3>
+
+                <p>
+                    Connect the system with GPS hardware and
+                    real-time mapping services.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 03
+                </small>
+
+                <h3>
+                    IoT Sensors
+                </h3>
+
+                <p>
+                    Integrate accelerometers, gyroscopes,
+                    impact sensors and vehicle telemetry.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 04
+                </small>
+
+                <h3>
+                    AI Detection
+                </h3>
+
+                <p>
+                    Train intelligent models to identify
+                    unusual motion and potential accidents.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 05
+                </small>
+
+                <h3>
+                    Emergency Network
+                </h3>
+
+                <p>
+                    Connect authorized emergency contacts
+                    and response systems.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road-item">
+
+            <div class="road-content">
+
+                <small>
+                    PHASE 06
+                </small>
+
+                <h3>
+                    Smart City Integration
+                </h3>
+
+                <p>
+                    Integrate the system with future
+                    intelligent transportation infrastructure.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     INFORMATION
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            14 / Research
+        </div>
+
+        <h2>
+            Important Design Principles
+        </h2>
+
+    </div>
+
+
+    <div class="info-grid">
+
+        <div class="info-card">
+
+            <h3>
+                Safety First
+            </h3>
+
+            <p>
+                The primary objective of the project is to
+                explore how digital systems can support
+                faster communication and better vehicle
+                safety awareness.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                Privacy Matters
+            </h3>
+
+            <p>
+                A real system must avoid exposing private
+                owner information to unauthorized people.
+                Authentication and access control would
+                therefore be important.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                Technology is Modular
+            </h3>
+
+            <p>
+                GPS, IoT, AI, cloud services and mobile
+                applications can be added gradually rather
+                than building the entire system at once.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                Prototype vs Reality
+            </h3>
+
+            <p>
+                This website demonstrates the concept.
+                A real product would require certified
+                hardware, secure infrastructure, testing,
+                regulations and reliable emergency systems.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     FAQ
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            15 / FAQ
+        </div>
+
+        <h2>
+            Frequently Asked Questions
+        </h2>
+
+    </div>
+
+
+    <div class="faq">
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                What is QR-VISION?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                QR-VISION is a conceptual smart vehicle
+                identity and safety platform that combines
+                digital vehicle information with GPS,
+                geofencing, sensors, AI and emergency
+                communication.
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                Is this a real GPS tracker?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                No. The map in this prototype is a simulated
+                demonstration. A real system would require
+                GPS hardware and a suitable mapping service.
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                How does accident detection work?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                In a future implementation, sensors could
+                measure acceleration, rotation and impact.
+                Software or AI could analyze these values
+                and identify unusual patterns.
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                What is a geofence?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                A geofence is a virtual geographic boundary.
+                When a connected device enters or leaves
+                that boundary, the system can generate an
+                alert.
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                Can AI be added later?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                Yes. AI could analyze sensor data, identify
+                abnormal patterns, classify events and
+                support predictive vehicle safety.
+
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                onclick="toggleFAQ(this)">
+
+                Is the vehicle information real?
+
+                <span>
+                    +
+                </span>
+
+            </button>
+
+            <div class="faq-answer">
+
+                No. The vehicle information displayed on
+                this website is fictional demonstration
+                data created for the project.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     PROJECT PITCH
+======================================================= -->
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            16 / Project Pitch
+        </div>
+
+        <h2>
+            The Core Idea
+        </h2>
+
+        <p>
+            The important innovation is not one individual
+            technology. It is the way multiple technologies
+            can work together around vehicle identity.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <h3>
+            From Identification → Intelligence → Safety
+        </h3>
+
+        <p>
+            Traditional vehicle identification gives us a
+            registration number. QR-VISION imagines a future
+            where vehicle identity can become the foundation
+            of a connected safety system. GPS can provide
+            location, geofencing can monitor boundaries,
+            sensors can detect unusual events, AI can analyze
+            those events, and emergency systems can respond.
+        </p>
+
+        <br>
+
+        <p>
+            The project therefore demonstrates how a simple
+            vehicle identity concept can evolve into a larger
+            Internet of Things and artificial intelligence
+            ecosystem.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
 <footer>
 
-QR-VISION © 2026 | Science Project Prototype
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    V
+                </div>
+
+                QR<span>-VISION</span>
+            </div>
+
+            <p>
+                A science-project prototype exploring the
+                future of digital vehicle identity, location
+                intelligence, geofencing, accident detection,
+                AI and connected safety.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                SYSTEM
+            </h4>
+
+            <p>
+                Vehicle Profile
+            </p>
+
+            <p>
+                GPS Demonstration
+            </p>
+
+            <p>
+                Geofence
+            </p>
+
+            <p>
+                Accident Simulation
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                FUTURE
+            </h4>
+
+            <p>
+                IoT
+            </p>
+
+            <p>
+                Artificial Intelligence
+            </p>
+
+            <p>
+                Smart Cities
+            </p>
+
+            <p>
+                Emergency Networks
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        QR-VISION • Smart Vehicle Safety System •
+        Science Project Prototype
+
+    </div>
 
 </footer>
 
 
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div id="toast" class="toast">
+
+    <strong id="toastTitle">
+        System
+    </strong>
+
+    <span id="toastText">
+        Ready.
+    </span>
+
+</div>
+
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
 
 <script>
 
+/* =========================================================
+   ELEMENT REFERENCES
+========================================================= */
 
-/* QR SCAN */
+const systemMessage =
+    document.getElementById("systemMessage");
 
-function scanQR(){
+const carMarker =
+    document.getElementById("carMarker");
 
-document.getElementById("qrMessage").innerHTML =
-"✓ QR scanned! Digital vehicle profile opened.";
+const locationStatus =
+    document.getElementById("locationStatus");
 
-document.getElementById("qrMessage").className =
-"message";
+const coordinates =
+    document.getElementById("coordinates");
 
-}
+const acceleration =
+    document.getElementById("acceleration");
 
+const speed =
+    document.getElementById("speed");
 
-/* EMERGENCY */
+const impact =
+    document.getElementById("impact");
 
-function emergency(){
+const sensorSystem =
+    document.getElementById("sensorSystem");
 
-document.getElementById("emergencyStatus").innerHTML =
-"ALERT SENT";
+const consoleBox =
+    document.getElementById("console");
 
-document.getElementById("emergencyMessage").innerHTML =
-"🚨 Emergency alert generated for vehicle QRV-2026-001.";
+const toast =
+    document.getElementById("toast");
 
-document.getElementById("emergencyMessage").className =
-"message warning";
+const toastTitle =
+    document.getElementById("toastTitle");
 
-document.getElementById("mainStatus").innerHTML =
-"● EMERGENCY";
-
-document.getElementById("mainStatus").className =
-"status danger-status";
-
-}
-
-
-/* SAFE LOCATION */
-
-function safeLocation(){
-
-let car = document.getElementById("car");
-
-car.style.left = "130px";
-
-car.style.top = "130px";
-
-document.getElementById("location").innerHTML =
-"📍 Vehicle is inside the safe zone.";
-
-document.getElementById("geoStatus").innerHTML =
-"SAFE";
-
-document.getElementById("geoAlert").innerHTML =
-"✓ Geofence: Vehicle is safe";
-
-document.getElementById("geoAlert").className =
-"message";
-
-}
+const toastText =
+    document.getElementById("toastText");
 
 
-/* OUTSIDE LOCATION */
+/* =========================================================
+   TOAST FUNCTION
+========================================================= */
 
-function outsideLocation(){
+function showToast(title, text) {
 
-let car = document.getElementById("car");
+    toastTitle.textContent = title;
 
-car.style.left = "270px";
+    toastText.textContent = text;
 
-car.style.top = "235px";
+    toast.classList.add("show");
 
-document.getElementById("location").innerHTML =
-"⚠️ Vehicle is outside the safe zone!";
+    setTimeout(function() {
 
-document.getElementById("geoStatus").innerHTML =
-"ALERT";
+        toast.classList.remove("show");
 
-document.getElementById("geoAlert").innerHTML =
-"⚠️ GEOFENCE ALERT: Vehicle left the safe zone!";
-
-document.getElementById("geoAlert").className =
-"message warning";
+    }, 3500);
 
 }
 
 
-/* ACCIDENT */
+/* =========================================================
+   SYSTEM MESSAGE
+========================================================= */
 
-function accident(){
+function updateMessage(message) {
 
-document.getElementById("accidentAlert").innerHTML =
-"🚨 POSSIBLE ACCIDENT DETECTED! Alert generated.";
+    systemMessage.textContent = message;
 
-document.getElementById("accidentAlert").className =
-"message warning";
-
-document.getElementById("mainStatus").innerHTML =
-"● POSSIBLE ACCIDENT";
-
-document.getElementById("mainStatus").className =
-"status danger-status";
+    systemMessage.classList.add("active");
 
 }
 
 
-/* RESET STATUS WHEN SAFE */
+/* =========================================================
+   VEHICLE PROFILE
+========================================================= */
 
-document.getElementById("mainStatus").addEventListener(
-"click",
-function(){
+function showProfile() {
 
-this.innerHTML = "● ACTIVE";
+    updateMessage(
+        "Vehicle profile loaded successfully. " +
+        "Demo ID: QV-2026-001 | Vehicle: Smart Sedan | " +
+        "Status: Active."
+    );
 
-this.className = "status active";
+    showToast(
+        "Vehicle Profile",
+        "Digital vehicle information displayed."
+    );
 
 }
+
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+function triggerEmergency() {
+
+    updateMessage(
+        "EMERGENCY SIMULATION: Alert workflow initiated. " +
+        "Vehicle location would be shared with authorized " +
+        "emergency contacts in a real system."
+    );
+
+    showToast(
+        "Emergency Alert",
+        "Emergency response simulation activated."
+    );
+
+    document.body.style.animation =
+        "none";
+
+}
+
+
+/* =========================================================
+   SAFE LOCATION
+========================================================= */
+
+function moveInside() {
+
+    carMarker.style.left = "50%";
+
+    carMarker.style.top = "50%";
+
+    carMarker.style.background =
+        "var(--cyan)";
+
+    carMarker.textContent =
+        "🚗";
+
+    locationStatus.textContent =
+        "Inside Safe Zone";
+
+    locationStatus.style.color =
+        "var(--green)";
+
+    coordinates.textContent =
+        "13.0827, 80.2707";
+
+    updateMessage(
+        "Vehicle is inside the permitted geofence. " +
+        "No location violation detected."
+    );
+
+    showToast(
+        "Safe Zone",
+        "Vehicle is inside the geofence."
+    );
+
+}
+
+
+/* =========================================================
+   OUTSIDE LOCATION
+========================================================= */
+
+function moveOutside() {
+
+    carMarker.style.left = "82%";
+
+    carMarker.style.top = "22%";
+
+    carMarker.style.background =
+        "var(--yellow)";
+
+    carMarker.textContent =
+        "⚠";
+
+    locationStatus.textContent =
+        "Outside Safe Zone";
+
+    locationStatus.style.color =
+        "var(--yellow)";
+
+    coordinates.textContent =
+        "13.0975, 80.2850";
+
+    updateMessage(
+        "GEOFENCE ALERT: Vehicle has moved outside " +
+        "the permitted demonstration area."
+    );
+
+    showToast(
+        "Geofence Alert",
+        "Vehicle has exited the safe zone."
+    );
+
+}
+
+
+/* =========================================================
+   ACCIDENT SIMULATION
+========================================================= */
+
+function simulateAccident() {
+
+    acceleration.textContent =
+        "6.8";
+
+    speed.textContent =
+        "12";
+
+    impact.textContent =
+        "HIGH";
+
+    sensorSystem.textContent =
+        "ALERT";
+
+    acceleration.style.color =
+        "var(--red)";
+
+    impact.style.color =
+        "var(--red)";
+
+    sensorSystem.style.color =
+        "var(--red)";
+
+    consoleBox.innerHTML = "";
+
+    addConsoleLine(
+        "[SENSOR] Sudden acceleration change detected.",
+        "warning"
+    );
+
+    setTimeout(function() {
+
+        addConsoleLine(
+            "[SENSOR] High impact signal detected.",
+            "danger"
+        );
+
+    }, 500);
+
+    setTimeout(function() {
+
+        addConsoleLine(
+            "[GPS] Vehicle location acquired.",
+            "success"
+        );
+
+    }, 1000);
+
+    setTimeout(function() {
+
+        addConsoleLine(
+            "[AI] Event classified as potential accident.",
+            "danger"
+        );
+
+    }, 1500);
+
+    setTimeout(function() {
+
+        addConsoleLine(
+            "[ALERT] Emergency notification workflow started.",
+            "danger"
+        );
+
+    }, 2000);
+
+    updateMessage(
+        "ACCIDENT SIMULATION: High-impact event detected. " +
+        "The demonstration has triggered the emergency workflow."
+    );
+
+    showToast(
+        "Accident Detected",
+        "Emergency simulation activated."
+    );
+
+}
+
+
+/* =========================================================
+   CONSOLE
+========================================================= */
+
+function addConsoleLine(text, type) {
+
+    const line =
+        document.createElement("div");
+
+    line.className =
+        "console-line " + type;
+
+    line.textContent =
+        text;
+
+    consoleBox.appendChild(line);
+
+    consoleBox.scrollTop =
+        consoleBox.scrollHeight;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetSystem() {
+
+    acceleration.textContent =
+        "1.2";
+
+    speed.textContent =
+        "48";
+
+    impact.textContent =
+        "LOW";
+
+    sensorSystem.textContent =
+        "OK";
+
+    acceleration.style.color =
+        "";
+
+    impact.style.color =
+        "";
+
+    sensorSystem.style.color =
+        "";
+
+    carMarker.style.left =
+        "50%";
+
+    carMarker.style.top =
+        "50%";
+
+    carMarker.style.background =
+        "var(--cyan)";
+
+    carMarker.textContent =
+        "🚗";
+
+    locationStatus.textContent =
+        "Inside Safe Zone";
+
+    locationStatus.style.color =
+        "var(--green)";
+
+    coordinates.textContent =
+        "13.0827, 80.2707";
+
+    consoleBox.innerHTML = "";
+
+    addConsoleLine(
+        "[SYSTEM] System reset successfully.",
+        "success"
+    );
+
+    addConsoleLine(
+        "[GPS] Location monitoring active.",
+        "success"
+    );
+
+    addConsoleLine(
+        "[AI] Accident detection model ready.",
+        "success"
+    );
+
+    updateMessage(
+        "System restored to normal demonstration mode."
+    );
+
+    showToast(
+        "System Reset",
+        "All demonstration values restored."
+    );
+
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+function toggleFAQ(button) {
+
+    const item =
+        button.parentElement;
+
+    item.classList.toggle("open");
+
+    const symbol =
+        button.querySelector("span");
+
+    if(item.classList.contains("open")) {
+
+        symbol.textContent =
+            "−";
+
+    } else {
+
+        symbol.textContent =
+            "+";
+
+    }
+
+}
+
+
+/* =========================================================
+   DEMO SENSOR UPDATE
+========================================================= */
+
+let normalCounter = 0;
+
+setInterval(function() {
+
+    normalCounter++;
+
+    if(
+        normalCounter % 5 === 0
+    ) {
+
+        const randomSpeed =
+            Math.floor(
+                40 +
+                Math.random() * 15
+            );
+
+        const randomAcceleration =
+            (
+                0.8 +
+                Math.random() * 0.8
+            ).toFixed(1);
+
+        speed.textContent =
+            randomSpeed;
+
+        acceleration.textContent =
+            randomAcceleration;
+
+    }
+
+}, 3000);
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        showToast(
+            "QR-VISION",
+            "Smart vehicle system ready."
+        );
+
+    }
 );
 
 </script>
-
 
 </body>
 </html>
